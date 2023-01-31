@@ -1,3 +1,4 @@
+import java.lang.Math;
 
 public class Pet {
 
@@ -13,14 +14,15 @@ public class Pet {
         // data validation?
     }
 
-    @Override
-    public String toString() {
-        return name + " is a " + type.toString().toLowerCase() + " age " + (int) age;
-    }
-
     public double humanAge() {
         double humanAge = (humanLifespan * age) / type.lifespan();
         return humanAge;
+    }
+
+    @Override
+    public String toString() {
+        return name + " is a " + type.toString().toLowerCase() + " age " + (int) age + " or " + Math.round(humanAge())
+                + " in human-equivalent years";
     }
 
     public static void main(String[] args) {
