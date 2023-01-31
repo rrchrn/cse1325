@@ -4,7 +4,7 @@ public class Pet {
     private String name;
     private double age;
     private Type type;
-    final static double humanLifespan = 100;
+    private final double humanLifespan = 80;
 
     public Pet(String name, double age, Type type) {
         this.name = name;
@@ -19,7 +19,8 @@ public class Pet {
     }
 
     public double humanAge() {
-        return humanLifespan;
+        double humanAge = (humanLifespan * age) / type.lifespan();
+        return humanAge;
     }
 
     public static void main(String[] args) {
