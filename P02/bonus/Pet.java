@@ -4,6 +4,7 @@ public class Pet {
     private String name;
     private double age;
     private Type type;
+    final static double humanLifespan = 100;
 
     public Pet(String name, double age, Type type) {
         this.name = name;
@@ -15,6 +16,10 @@ public class Pet {
     @Override
     public String toString() {
         return name + " is a " + type.toString().toLowerCase() + " age " + (int) age;
+    }
+
+    public double humanAge() {
+        return humanLifespan;
     }
 
     public static void main(String[] args) {
