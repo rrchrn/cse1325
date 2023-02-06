@@ -25,20 +25,26 @@ public class Quiz {
 
     }
 
-    public double takeQuiz()
-    {
-        for(int i;i < questions.size();i++)
-        {
+    public double takeQuiz() {
+        for (int i = 0; i < questions.size(); i++) {
             int count = 0;
+            int correctAnswer = 0;
             System.out.println(i + ". " + questions.get(i));
             count++;
 
             Scanner answer = new Scanner(System.in);
             System.out.println("Your answer? ");
             String proposedAnswer = answer.nextLine();
-            
-        }
-     
 
+            answer.close();
+
+            if (checkAnswer()) {
+                correctAnswer++;
+            }
+
+        }
+
+        return correctAnswer / (questions.size());
+    }
 
 }
