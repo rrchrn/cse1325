@@ -19,6 +19,10 @@ public class Question {
 
     }
 
+    public boolean checkAnswer(int answer) {
+        return false;
+    }
+
     @Override
     public String toString() {
         return questionNumber + ". " + question + "\n" + "1. " + answers[0] + "/n" + "2. " + answers[1] + "/n" + "3. "
