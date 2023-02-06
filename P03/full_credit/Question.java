@@ -19,8 +19,12 @@ public class Question {
 
     }
 
-    public boolean checkAnswer(int answer) {
-        return false;
+    public boolean checkAnswer(Integer answer) {
+        if (answer.equals(rightAnswer)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
