@@ -43,8 +43,6 @@ public class Quiz {
 
         }
         answer.close();
-        System.out.println(correctAnswer);
-        System.out.println(questions.size());
 
         double numRight = (double) correctAnswer;
         double total = (double) questions.size();
