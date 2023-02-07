@@ -13,7 +13,7 @@ public class Question {
         this.answers = answers;
         this.rightAnswer = rightAnswer;
 
-        if (rightAnswer < 1 || rightAnswer > questionNumber) {
+        if (rightAnswer < 1 || rightAnswer > answers.length) {
             throw new IllegalArgumentException("Right answer is less than 1 or greater than the number of answers");
         }
 
@@ -29,7 +29,12 @@ public class Question {
 
     @Override
     public String toString() {
-        return questionNumber + ". " + question + "\n" + "1. " + answers[0] + "/n" + "2. " + answers[1] + "/n" + "3. "
-                + answers[2] + "/n" + "4. " + answers[3] + "/n";
+        // return questionNumber + ". " + question + "\n" + "1. " + answers[0] + "/n" +
+        // "2. " + answers[1] + "/n" + "3. "
+        // + answers[2] + "/n" + "4. " + answers[3] + "/n";
+        return question + "\n\t" + "1. " + answers[0] + "\n\t" + "2. " + answers[1]
+                + "\n\t"
+                + "3. "
+                + answers[2] + "\n\t" + "4. " + answers[3] + "\n\t";
     }
 }
