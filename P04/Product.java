@@ -12,7 +12,7 @@ abstract class Product {
     @Override
     public String toString() {
 
-        return ""; // filler
+        return name + "(" + String.format("%,.2f", cost) + ") " + price(); // filler
 
     }
 
