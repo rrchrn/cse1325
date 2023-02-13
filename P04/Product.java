@@ -7,14 +7,12 @@ abstract class Product {
         this.name = name;
     }
 
-    public Product(String name, double cost) {
-
-    }
-
     public abstract double price();
 
     @Override
     public String toString() {
+
+        return ""; // filler
 
     }
 
