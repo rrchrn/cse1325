@@ -6,7 +6,7 @@ public class Taxfree extends Product {
 
     @Override
     public double price() {
-        return 3.0; // filler for now
+        return cost; // filler for now
     }
 
 }
