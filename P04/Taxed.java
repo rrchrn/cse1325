@@ -13,7 +13,8 @@ public class Taxed extends Product {
 
     @Override
     public double price() {
-        return cost * (1 + salesTaxRate); // filler for now
+        double finalCost = (cost * (1 + salesTaxRate));
+        return Double.parseDouble(String.format("%.2f", finalCost));// filler for now
     }
 
     public static class Ice extends Taxed {
@@ -30,7 +31,7 @@ public class Taxed extends Product {
 
     public static class Lotion extends Taxed {
         public Lotion() {
-            super(7.99, "");
+            super(7.99, "Lotions");
         }
     }
 }

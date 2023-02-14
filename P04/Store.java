@@ -24,13 +24,22 @@ public class Store {
         products.add(milk);
         products.add(yogurt);
 
-        System.out.println("=====================");
+        System.out.println("\n=====================");
         System.out.println("Welcome to the Store");
         System.out.println("=====================\n");
 
+        int count = 0;
+
         for (Product item : products) {
+            System.out.print(count + " )  ");
             System.out.println(item);
+            count = count + 1;
         }
 
+        System.out.println("\nCurrent Order");
+        System.out.println("-------------");
+        for (Product addedItem : shoppingCart) {
+            System.out.println(addedItem);
+        }
     }
 }
