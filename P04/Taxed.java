@@ -7,12 +7,12 @@ public class Taxed extends Product {
     }
 
     public static double setTaxRate(double salesTax) {
-        salesTax = salesTaxRate;
+        salesTaxRate = salesTax;
         return salesTaxRate;
     }
 
     @Override
     public double price() {
-        return 3.0; // filler for now
+        return cost * (1 + salesTaxRate); // filler for now
     }
 }
