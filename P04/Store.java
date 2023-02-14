@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Store {
     private static ArrayList<Product> products = new ArrayList<Product>();
@@ -24,22 +25,55 @@ public class Store {
         products.add(milk);
         products.add(yogurt);
 
-        System.out.println("\n=====================");
-        System.out.println("Welcome to the Store");
-        System.out.println("=====================\n");
+        // Add scanner for input
+        int status = 1;
+        int answer = 0;
+        Scanner input = new Scanner(System.in);
 
-        int count = 0;
+        try {
+            while (status == 1) {
+                System.out.println("\n=====================");
+                System.out.println("Welcome to the Store");
+                System.out.println("=====================\n");
 
-        for (Product item : products) {
-            System.out.print(count + " )  ");
-            System.out.println(item);
-            count = count + 1;
+                int count = 0;
+                // Products
+                for (Product item : products) {
+                    System.out.print(count + " )  ");
+                    System.out.println(item);
+                    count = count + 1;
+                }
+
+                System.out.println("\nCurrent Order");
+                System.out.println("-------------");
+
+                // Shopping Cart
+                double totalCost = 0;
+
+                for (Product addedItem : shoppingCart) {
+                    System.out.println(addedItem);
+                    totalCost = totalCost + addedItem.cost;
+                }
+
+                // Print total price
+                System.out.println(String.format("Total price: %.2f", totalCost));
+
+                System.out.println("\nBuy which product?");
+                answer = input.nextInt();
+
+                if (answer < 0 || answer > products.size()) {
+                    throw new IllegalArgumentException("Please choose number within bounds");
+                }
+
+                shoppingCart.add(products.get(answer));
+            }
+            input.close();
+
+        } catch (Exception e) {
+            System.err.println("Invalid Input!");
+            System.exit(-1);
         }
 
-        System.out.println("\nCurrent Order");
-        System.out.println("-------------");
-        for (Product addedItem : shoppingCart) {
-            System.out.println(addedItem);
-        }
     }
+
 }
