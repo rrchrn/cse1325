@@ -15,4 +15,22 @@ public class Taxed extends Product {
     public double price() {
         return cost * (1 + salesTaxRate); // filler for now
     }
+
+    public static class Ice extends Taxed {
+        public Ice() {
+            super(.95, "Ice");
+        }
+    }
+
+    public static class Candy extends Taxed {
+        public Candy() {
+            super(1.35, "Candy");
+        }
+    }
+
+    public static class Lotion extends Taxed {
+        public Lotion() {
+            super(7.99, "");
+        }
+    }
 }
