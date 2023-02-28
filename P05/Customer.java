@@ -24,6 +24,12 @@ public class Customer {
 
     @Override
     public String toString() {
+        return name + " (" + email + ")";
+
+    }
+
+    // to make sure there's not multiple of same email??
+    public boolean equals(Object o) {
 
     }
 }
