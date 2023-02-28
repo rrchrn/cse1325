@@ -17,6 +17,14 @@ public class Option {
         return (long) (cost / 100.0);
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public long getCost() {
+        return cost;
+    }
+
     @Override
     public String toString() {
         return name + " (" + cost + ")\n";
