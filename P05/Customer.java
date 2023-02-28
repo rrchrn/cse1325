@@ -9,7 +9,7 @@ public class Customer {
         this.name = name;
 
         if (!validateEmail(email)) {
-            throw new IllegalArgumentException("Invalid Email Syntax");
+            throw new IllegalArgumentException("Invalid Email Syntax ex. name@domain.com");
         }
 
     }
@@ -24,7 +24,7 @@ public class Customer {
 
     @Override
     public String toString() {
-        return name + " (" + email + ")";
+        return name + " (" + email + ")\n";
 
     }
 
