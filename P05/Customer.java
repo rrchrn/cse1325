@@ -1,7 +1,7 @@
 import java.util.regex.*;
 
 public class Customer {
-    private String name;
+    String name;
     private String email;
 
     public Customer(String name, String email) {
@@ -11,6 +11,15 @@ public class Customer {
         if (!validateEmail(email)) {
             throw new IllegalArgumentException("Invalid Email Syntax ex. name@domain.com");
         }
+
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getEmail() {
+        return email;
 
     }
 
@@ -31,10 +40,15 @@ public class Customer {
     // to make sure there's not multiple of same email??
     @Override
     public boolean equals(Object o) {
-        if (o instanceof Customer) {
-            Customer otherEmail = (Customer) o;
-            return this.email.equals(otherEmail.email);
+        if (o == this) {
+            return true;
         }
-        return false;
+
+        if (!(o instanceof Customer)) {
+            return false;
+        }
+
+        Customer otherEmail = (Customer) o;
+        return this.email.equals(otherEmail.email);
     }
 }

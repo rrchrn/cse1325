@@ -23,6 +23,18 @@ public class Computer {
         return totalCost;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public ArrayList<Option> getOptions() {
+        return options;
+    }
+
     @Override
     public String toString() {
         // have to use string builder????

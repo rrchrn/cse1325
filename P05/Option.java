@@ -32,10 +32,16 @@ public class Option {
 
     @Override
     public boolean equals(Object o) {
-        if (o instanceof Option) {
-            Option otherObject = (Option) o;
-            return this.name.equals(otherObject.name) && cost == otherObject.cost;
+
+        if (o == this) {
+            return true;
         }
-        return false;
+
+        if (!(o instanceof Option)) {
+            return false;
+        }
+        Option otherObject = (Option) o;
+        return this.name.equals(otherObject.name) && cost == otherObject.cost;
     }
+
 }
