@@ -29,7 +29,12 @@ public class Customer {
     }
 
     // to make sure there's not multiple of same email??
+    @Override
     public boolean equals(Object o) {
-
+        if (o instanceof Customer) {
+            Customer otherEmail = (Customer) o;
+            return this.email.equals(otherEmail.email);
+        }
+        return false;
     }
 }
