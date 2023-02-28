@@ -23,7 +23,7 @@ public class Customer {
 
     }
 
-    public static final Pattern regexEmail = Pattern.compile("^([a-zA-Z0-9_-.]+)@([a-zA-Z0-9_-.]+).([a-zA-Z]{2,5})$",
+    public static final Pattern regexEmail = Pattern.compile("^([a-zA-Z0-9_.-]+)@([a-zA-Z0-9_.-]+).([a-zA-Z]{2,5})$",
             Pattern.CASE_INSENSITIVE);
 
     public static boolean validateEmail(String email) {
@@ -48,7 +48,7 @@ public class Customer {
             return false;
         }
 
-        Customer otherEmail = (Customer) o;
-        return this.email.equals(otherEmail.email);
+        Customer otherCustomer = (Customer) o;
+        return this.email.equals(otherCustomer.email);
     }
 }
