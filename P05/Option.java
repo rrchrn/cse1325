@@ -20,11 +20,14 @@ public class Option {
     @Override
     public String toString() {
         return name + " (" + cost + ")\n";
-
     }
 
     @Override
     public boolean equals(Object o) {
+        if (o instanceof Option) {
+            Option otherObject = (Option) o;
+            return this.name.equals(otherObject.name) && cost == otherObject.cost;
+        }
         return false;
     }
 }
