@@ -2,5 +2,6 @@
     "java.debug.settings.onBuildFailureProceed": true,
     "cSpell.words": [
         "Taxfree"
-    ]
+    ],
+    "java.format.settings.url": ".vscode/java-formatter.xml"
 }
