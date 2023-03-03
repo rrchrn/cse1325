@@ -1,3 +1,5 @@
+package store;
+
 import java.util.regex.*;
 
 public class Customer {
