@@ -1,5 +1,7 @@
 package gui;
 
+import store.Store;
+
 import javax.swing.JFrame; // for main window
 import javax.swing.JOptionPane; // for standard dialogs
 // import javax.swing.JDialog;          // for custom dialogs (for alternate About dialog)
@@ -150,13 +152,14 @@ public class MainWin extends JFrame {
         // /////////////////////////// ////////////////////////////////////////////
         // D I S P L A Y
         // Provide a text entry box to show the remaining sticks
+
         JList<String> computerList = new JList<String>();
         computerList.setFont(new Font("SansSerif", Font.BOLD, 18));
         add(computerList, BorderLayout.CENTER);
 
         JList<String> customerList = new JList<String>();
         customerList.setFont(new Font("SansSerif", Font.BOLD, 18));
-        add(customerList, BorderLayout.CENTER);
+        add(customerList, BorderLayout.LINE_END);
 
         // S T A T U S B A R D I S P L A Y ////////////////////////////////////
         // Provide a status bar for game messages
@@ -166,8 +169,8 @@ public class MainWin extends JFrame {
         // Make everything in the JFrame visible
         setVisible(true);
 
-        // Start a new game
-        onNewGameClick();
+        // Instance new Store
+        Store store = new Store("Store");
     }
 
     protected enum Record {
@@ -176,28 +179,14 @@ public class MainWin extends JFrame {
         COMPUTER,
         ORDER
     }
+
     // Listeners
+    protected void onInsertCustomerClick() {
 
-    protected void onNewGameClick() { // Create a new game
-        nim = new Nim();
-        setSticks();
-        msg.setFont(new JLabel().getFont()); // Reset to default font
     }
 
-    protected void onButtonClick(int button) { // Select 1, 2, or 3 sticks from pile
-        try {
-            // Catch the "impossible" out of sticks exception
-            nim.takeSticks(button);
-            setSticks();
-        } catch (Exception e) {
-            sticks.setText("FAIL: " + e.getMessage() + ", start new game");
-        }
-    }
+    protected void onInsertOptionClick() {
 
-    protected void onComputerPlayerClick() { // Enable / disable computer player
-        setSticks();
-        // Java Swing requires action to visually indicate enabled / disabled button
-        computerPlayer.setBorder(computerPlayer.isSelected() ? BorderFactory.createLineBorder(Color.black) : null);
     }
 
     protected void onRulesClick() { // Show the rules
@@ -240,50 +229,6 @@ public class MainWin extends JFrame {
     protected void onQuitClick() {
         System.exit(0);
     } // Exit the game
-
-    private void setSticks() { // Update display, robot move
-        // s collects the status message
-        String s = "";
-
-        // If the robot is enabled and it's their turn, move the robot
-        if (nim.sticksLeft() > 0) {
-            if (computerPlayer.isSelected() && nim.currentPlayer() == 2) {
-                int move = 1;
-                try {
-                    move = nim.optimalMove();
-                } catch (Exception e) {
-                    System.err.println("Invalid optimal move: " + e.getMessage());
-                }
-                s += "Robot plays " + move + ", ";
-                nim.takeSticks(move);
-            }
-        }
-
-        // Report who's turn it is, or (if all sticks gone) who won
-
-        if (nim.sticksLeft() > 0) {
-            s += "Player " + nim.currentPlayer() + "'s turn";
-        } else {
-            s += "Player " + nim.currentPlayer() + " wins!";
-            msg.setFont(new Font("SansSerif", Font.BOLD, 18));
-        }
-
-        // Display the collected status on the status bar
-        msg.setText(s);
-
-        // Update the visual display of sticks
-        s = "";
-        for (int i = 0; i < nim.sticksLeft(); ++i)
-            s += ("| ");
-        s += "  (" + (nim.sticksLeft()) + " sticks)";
-        sticks.setText(s);
-
-        // Set sensitivity of the human stick selectors so user can't make an illegal
-        // move
-        button1.setEnabled(nim.sticksLeft() > 0);
-        button2.setEnabled(nim.sticksLeft() > 1);
-        button3.setEnabled(nim.sticksLeft() > 2);
-    }
 
     private Nim nim;
 
