@@ -1,4 +1,4 @@
-package Elsa;
+package gui;
 
 public class Elsa {
     public static void main(String[] args) {
