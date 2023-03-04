@@ -152,7 +152,8 @@ public class MainWin extends JFrame {
         // /////////////////////////// ////////////////////////////////////////////
         // D I S P L A Y
         // Provide a text entry box to show the remaining sticks
-
+        final String computerString = "COMPUTERS";
+        final String customerString = "CUSTOMERS";
         JList<String> computerList = new JList<String>();
         computerList.setFont(new Font("SansSerif", Font.BOLD, 18));
         add(computerList, BorderLayout.CENTER);
@@ -186,6 +187,14 @@ public class MainWin extends JFrame {
     }
 
     protected void onInsertOptionClick() {
+
+    }
+
+    protected void onInsertComputerClick() {
+
+    }
+
+    protected void onViewClick(Record option) {
 
     }
 
@@ -229,8 +238,6 @@ public class MainWin extends JFrame {
     protected void onQuitClick() {
         System.exit(0);
     } // Exit the game
-
-    private Nim nim;
 
     private JLabel sticks; // Display of sticks on game board
     private JLabel msg; // Status message display
