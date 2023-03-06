@@ -29,8 +29,11 @@ public class Customer {
             Pattern.CASE_INSENSITIVE);
 
     public static boolean validateEmail(String email) {
+        //
+
         Matcher matchedPattern = regexEmail.matcher(email);
-        return matchedPattern.matches();
+        boolean isValid = matchedPattern.matches();
+        return isValid;
     }
 
     @Override

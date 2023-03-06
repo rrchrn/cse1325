@@ -201,7 +201,7 @@ public class MainWin extends JFrame {
 
                 System.out.println(Customer.validateEmail(customerEmail.getText()));
 
-                if (!(Customer.validateEmail((customerEmail.getText())))) {
+                if ((Customer.validateEmail((customerEmail.getText()))) != true) {
                     JOptionPane.showMessageDialog(null, "Invalid Email Address. Please Try Again", "Error",
                             JOptionPane.ERROR_MESSAGE);
                 }
