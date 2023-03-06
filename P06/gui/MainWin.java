@@ -197,9 +197,11 @@ public class MainWin extends JFrame {
         if (dialogBox == JOptionPane.YES_OPTION) {
             try {
 
-                Customer newCustomer = new Customer(customerName.toString(), customerEmail.toString());
+                Customer newCustomer = new Customer(customerName.getText(), customerEmail.getText());
 
-                if (!(Customer.validateEmail((customerEmail.toString())))) {
+                System.out.println(Customer.validateEmail(customerEmail.getText()));
+
+                if (!(Customer.validateEmail((customerEmail.getText())))) {
                     JOptionPane.showMessageDialog(null, "Invalid Email Address. Please Try Again", "Error",
                             JOptionPane.ERROR_MESSAGE);
                 }
