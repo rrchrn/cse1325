@@ -191,7 +191,7 @@ public class MainWin extends JFrame {
 
         Object[] labels = { "Customer Name", customerName, "Customer email", customerEmail };
 
-        int dialogBox = JOptionPane.showConfirmDialog(frame, labels, "default", JOptionPane.OK_CANCEL_OPTION,
+        int dialogBox = JOptionPane.showConfirmDialog(frame, labels, "New Customer", JOptionPane.OK_CANCEL_OPTION,
                 JOptionPane.PLAIN_MESSAGE);
 
         if (dialogBox == JOptionPane.YES_OPTION) {
