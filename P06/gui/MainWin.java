@@ -1,5 +1,6 @@
 package gui;
 
+import store.Computer;
 import store.Customer;
 import store.Store;
 import store.Option;
@@ -13,6 +14,7 @@ import javax.swing.JMenu; // menu selection that offers another menu
 import javax.swing.JMenuItem; // menu selection that does something
 import javax.swing.JToolBar; // row of buttons under the menu
 import javax.swing.JButton; // regular button
+import javax.swing.JComboBox;
 import javax.swing.JToggleButton; // 2-state button
 import javax.swing.BorderFactory; // manufacturers Border objects around buttons
 import javax.swing.Box; // to create toolbar spacer
@@ -248,6 +250,45 @@ public class MainWin extends JFrame {
     }
 
     protected void onInsertComputerClick() {
+        JFrame frame = new JFrame("New Computer");
+        JTextField computerName = new JTextField(40);
+        JTextField computerModel = new JTextField(40);
+        Store store = new Store("Store");
+
+        Object[] labels = { "Computer Name", computerName, "Computer Model", computerModel };
+        Object[] optionChoices = { store.options() }; // List all options
+        JComboBox<Object> comboBox = new JComboBox<>(optionChoices);
+
+        int dialogBox = JOptionPane.showConfirmDialog(frame, comboBox, "New Computer", JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.PLAIN_MESSAGE);
+
+        if (dialogBox == JOptionPane.OK_OPTION) {
+            try {
+
+                Computer newComputer = new Computer(computerName.getText(), computerModel.getText());
+                Option selectedObject = (Option) comboBox.getSelectedItem();
+                newComputer.addOption(selectedObject);
+
+                int optionIndex = comboBox.getSelectedIndex();
+                while (optionIndex != -1) {
+                    selectedObject = (Option) comboBox.getSelectedItem();
+                    newComputer.addOption(selectedObject);
+                    optionIndex = comboBox.getSelectedIndex();
+                }
+
+                store.add(newComputer);
+                JOptionPane.showMessageDialog(null, "Computer Added!", "Confirmation", JOptionPane.PLAIN_MESSAGE);
+
+            } catch (IllegalArgumentException e) {
+                System.out.println(e);
+                JOptionPane.showMessageDialog(null, "Invalid Input. Please Try Again", "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            } catch (Exception e) {
+
+            }
+        } else {
+            return;
+        }
 
     }
 
