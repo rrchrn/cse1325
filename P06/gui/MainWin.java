@@ -5,6 +5,7 @@ import store.Store;
 
 import javax.swing.JFrame; // for main window
 import javax.swing.JOptionPane; // for standard dialogs
+import javax.swing.JTextField;
 // import javax.swing.JDialog;          // for custom dialogs (for alternate About dialog)
 import javax.swing.JMenuBar; // row of menu selections
 import javax.swing.JMenu; // menu selection that offers another menu
@@ -55,17 +56,21 @@ public class MainWin extends JFrame {
         JMenuItem customers = new JMenuItem("Customers");
         JMenuItem options = new JMenuItem("Options");
         JMenuItem computers = new JMenuItem("Computers");
+        JMenuItem orders = new JMenuItem("Orders");
         view.add(customers);
         view.add(options);
         view.add(computers);
+        view.add(orders);
 
         JMenu insert = new JMenu("Insert");
         JMenuItem customer = new JMenuItem("Customer");
         JMenuItem option = new JMenuItem("Option");
         JMenuItem computer = new JMenuItem("Computer");
+        JMenuItem order = new JMenuItem("Order");
         insert.add(customer);
         insert.add(option);
         insert.add(computer);
+        insert.add(order);
 
         quit.addActionListener(event -> onQuitClick());
         // For Insert
@@ -179,26 +184,61 @@ public class MainWin extends JFrame {
 
     // Listeners
     protected void onInsertCustomerClick() {
+        // Store store = new Store("Store");
+        // String customerName = "";
+        // String customerEmail = "";
+
+        // try {
+        // customerName = JOptionPane.showInputDialog(null, "Customer Name");
+        // if(customerName == null)
+        // {
+        // return;
+        // }
+        // customerEmail = JOptionPane.showInputDialog(null, "Customer Email");
+        // if(customerEmail == null)
+        // {
+        // return;
+        // }
+        // Customer newCustomer = new Customer(customerName, customerEmail);
+
+        // if (!(Customer.validateEmail(customerEmail))) {
+        // JOptionPane.showMessageDialog(null, "Invalid Email Address. Please Try
+        // Again", "Error",
+        // JOptionPane.ERROR_MESSAGE);
+        // }
+
+        // store.add(newCustomer);
+
+        // } catch (Exception e) {
+
+        // }
+        JFrame frame = new JFrame("New Customer");
+        JTextField customerName = new JTextField(30);
+        JTextField customerEmail = new JTextField(40);
         Store store = new Store("Store");
-        String customerName = "";
-        String customerEmail = "";
 
-        try {
-            customerName = JOptionPane.showInputDialog("Customer Name");
-            customerEmail = JOptionPane.showInputDialog("Customer Email");
-            Customer newCustomer = new Customer(customerName, customerEmail);
+        Object[] labels = { "Customer Name", customerName, "Customer email", customerEmail };
 
-            if (Customer.validateEmail(customerEmail)) {
-                JOptionPane.showMessageDialog(null, "Invalid Email Address. Please Try Again", "Error",
-                        JOptionPane.ERROR_MESSAGE);
+        int dialogBox = JOptionPane.showConfirmDialog(frame, labels, "default", JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.PLAIN_MESSAGE);
+
+        if (dialogBox == JOptionPane.YES_OPTION) {
+            try {
+
+                Customer newCustomer = new Customer(customerName.toString(), customerEmail.toString());
+
+                if (!(Customer.validateEmail((customerEmail.toString())))) {
+                    JOptionPane.showMessageDialog(null, "Invalid Email Address. Please Try Again", "Error",
+                            JOptionPane.ERROR_MESSAGE);
+                }
+                store.add(newCustomer);
+
+            } catch (Exception e) {
+
             }
-
-            store.add(newCustomer);
-
-        } catch (Exception e) {
+        } else {
             return;
         }
-
     }
 
     protected void onInsertOptionClick() {
