@@ -184,34 +184,6 @@ public class MainWin extends JFrame {
 
     // Listeners
     protected void onInsertCustomerClick() {
-        // Store store = new Store("Store");
-        // String customerName = "";
-        // String customerEmail = "";
-
-        // try {
-        // customerName = JOptionPane.showInputDialog(null, "Customer Name");
-        // if(customerName == null)
-        // {
-        // return;
-        // }
-        // customerEmail = JOptionPane.showInputDialog(null, "Customer Email");
-        // if(customerEmail == null)
-        // {
-        // return;
-        // }
-        // Customer newCustomer = new Customer(customerName, customerEmail);
-
-        // if (!(Customer.validateEmail(customerEmail))) {
-        // JOptionPane.showMessageDialog(null, "Invalid Email Address. Please Try
-        // Again", "Error",
-        // JOptionPane.ERROR_MESSAGE);
-        // }
-
-        // store.add(newCustomer);
-
-        // } catch (Exception e) {
-
-        // }
         JFrame frame = new JFrame("New Customer");
         JTextField customerName = new JTextField(30);
         JTextField customerEmail = new JTextField(40);
@@ -239,6 +211,7 @@ public class MainWin extends JFrame {
         } else {
             return;
         }
+
     }
 
     protected void onInsertOptionClick() {
@@ -251,14 +224,6 @@ public class MainWin extends JFrame {
 
     protected void onViewClick(Record option) {
 
-    }
-
-    protected void onRulesClick() { // Show the rules
-        String s = "The Rules of Nim\n\nCopyright 2017-2023 by George F. Rice - CC BY 4.0\n\n"
-                + "The two players alternate taking 1 to 3 sticks from the pile.\n"
-                + "The goal is to force your opponent to take the last stick (called misère rules).\n"
-                + "If the computer button is up, it's a two player game. If down, the computer is always Player 2.)";
-        JOptionPane.showMessageDialog(this, s, "The Rules of Nim", JOptionPane.PLAIN_MESSAGE);
     }
 
     protected void onAboutClick() { // Display About dialog
