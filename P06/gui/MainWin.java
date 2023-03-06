@@ -1,5 +1,6 @@
 package gui;
 
+import store.Customer;
 import store.Store;
 
 import javax.swing.JFrame; // for main window
@@ -173,14 +174,30 @@ public class MainWin extends JFrame {
     }
 
     protected enum Record {
-        CUSTOMER,
-        OPTION,
-        COMPUTER,
-        ORDER
+        CUSTOMER, OPTION, COMPUTER, ORDER
     }
 
     // Listeners
     protected void onInsertCustomerClick() {
+        Store store = new Store("Store");
+        String customerName = "";
+        String customerEmail = "";
+
+        try {
+            customerName = JOptionPane.showInputDialog("Customer Name");
+            customerEmail = JOptionPane.showInputDialog("Customer Email");
+            Customer newCustomer = new Customer(customerName, customerEmail);
+
+            if (Customer.validateEmail(customerEmail)) {
+                JOptionPane.showMessageDialog(null, "Invalid Email Address. Please Try Again", "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+
+            store.add(newCustomer);
+
+        } catch (Exception e) {
+            return;
+        }
 
     }
 
@@ -197,10 +214,10 @@ public class MainWin extends JFrame {
     }
 
     protected void onRulesClick() { // Show the rules
-        String s = "The Rules of Nim\n\nCopyright 2017-2023 by George F. Rice - CC BY 4.0\n\n" +
-                "The two players alternate taking 1 to 3 sticks from the pile.\n" +
-                "The goal is to force your opponent to take the last stick (called misère rules).\n" +
-                "If the computer button is up, it's a two player game. If down, the computer is always Player 2.)";
+        String s = "The Rules of Nim\n\nCopyright 2017-2023 by George F. Rice - CC BY 4.0\n\n"
+                + "The two players alternate taking 1 to 3 sticks from the pile.\n"
+                + "The goal is to force your opponent to take the last stick (called misère rules).\n"
+                + "If the computer button is up, it's a two player game. If down, the computer is always Player 2.)";
         JOptionPane.showMessageDialog(this, s, "The Rules of Nim", JOptionPane.PLAIN_MESSAGE);
     }
 
@@ -212,24 +229,17 @@ public class MainWin extends JFrame {
         } catch (IOException e) {
         }
 
-        JLabel title = new JLabel("<html>"
-                + "<p><font size=+4>Nim</font></p>"
-                + "<p>Version 1.4J</p>"
-                + "</html>",
+        JLabel title = new JLabel("<html>" + "<p><font size=+4>Nim</font></p>" + "<p>Version 1.4J</p>" + "</html>",
                 SwingConstants.CENTER);
 
-        JLabel artists = new JLabel("<html>"
-                + "<br/><p>Copyright 2017-2023 by George F. Rice</p>"
-                + "<p>Licensed under Gnu GPL 3.0</p><br/>"
-                + "<p>Logo by M0tty, licensed under CC BY-SA 3.0</p>"
+        JLabel artists = new JLabel("<html>" + "<br/><p>Copyright 2017-2023 by George F. Rice</p>"
+                + "<p>Licensed under Gnu GPL 3.0</p><br/>" + "<p>Logo by M0tty, licensed under CC BY-SA 3.0</p>"
                 + "<p><font size=-2>https://commons.wikimedia.org/wiki/File:Pyramidal_matches.svg</font></p>"
                 + "<p>Robot by FreePik.com, licensed for personal</p><p>and commercial purposes with attribution</p>"
                 + "<p><font size=-2>https://www.freepik.com/free-vector/grey-robot-silhouettes_714902.htm</font></p>"
                 + "</html>");
 
-        JOptionPane.showMessageDialog(this,
-                new Object[] { logo, title, artists },
-                "The Game of Nim",
+        JOptionPane.showMessageDialog(this, new Object[] { logo, title, artists }, "The Game of Nim",
                 JOptionPane.PLAIN_MESSAGE);
     }
 
