@@ -2,6 +2,7 @@ package gui;
 
 import store.Customer;
 import store.Store;
+import store.Option;
 
 import javax.swing.JFrame; // for main window
 import javax.swing.JOptionPane; // for standard dialogs
@@ -22,6 +23,7 @@ import javax.swing.ImageIcon; // holds a custom icon
 import javax.swing.SwingConstants; // useful values for Swing method calls
 
 import javax.imageio.ImageIO; // loads an image from a file
+import javax.management.openmbean.OpenDataException;
 
 import java.io.File; // opens a file
 import java.io.IOException; // reports an error reading from a file
@@ -215,6 +217,33 @@ public class MainWin extends JFrame {
     }
 
     protected void onInsertOptionClick() {
+        JFrame frame = new JFrame("New Customer");
+        JTextField optionName = new JTextField(30);
+        JTextField cost = new JTextField(40);
+        Store store = new Store("Store");
+
+        Object[] labels = { "Option Name", optionName, "Cost", cost };
+
+        int dialogBox = JOptionPane.showConfirmDialog(frame, labels, "New Option", JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.PLAIN_MESSAGE);
+
+        if (dialogBox == JOptionPane.YES_OPTION) {
+            try {
+                long costLong = Long.parseLong(cost.getText());
+                Option newOption = new Option(optionName.getText(), costLong);
+                store.add(newOption);
+                JOptionPane.showMessageDialog(null, "Option Added!", "Confirmation", JOptionPane.PLAIN_MESSAGE);
+
+            } catch (IllegalArgumentException e) {
+                System.out.println(e);
+                JOptionPane.showMessageDialog(null, "Invalid Number. Please Try Again", "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            } catch (Exception e) {
+
+            }
+        } else {
+            return;
+        }
 
     }
 
