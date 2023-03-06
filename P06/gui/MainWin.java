@@ -230,7 +230,7 @@ public class MainWin extends JFrame {
         if (dialogBox == JOptionPane.YES_OPTION) {
             try {
                 long costLong = (long) (Double.parseDouble(cost.getText()) * 100.00);
-                Option newOption = new Option(optionName.getText(), (costLong);
+                Option newOption = new Option(optionName.getText(), (costLong));
                 store.add(newOption);
                 JOptionPane.showMessageDialog(null, "Option Added!", "Confirmation", JOptionPane.PLAIN_MESSAGE);
 
