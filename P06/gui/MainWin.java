@@ -192,16 +192,14 @@ public class MainWin extends JFrame {
         Object[] labels = { "Customer Name", customerName, "Customer email", customerEmail };
 
         int dialogBox = JOptionPane.showConfirmDialog(frame, labels, "New Customer", JOptionPane.OK_CANCEL_OPTION,
-                JOptionPane.PLAIN_MESSAGE);
+                JOptionPane.ERROR_MESSAGE);
 
         if (dialogBox == JOptionPane.YES_OPTION) {
             try {
 
                 Customer newCustomer = new Customer(customerName.getText(), customerEmail.getText());
 
-                System.out.println(Customer.validateEmail(customerEmail.getText()));
-
-                if ((Customer.validateEmail((customerEmail.getText()))) != true) {
+                if ((Customer.validateEmail((customerEmail.getText()))) != 1) {
                     JOptionPane.showMessageDialog(null, "Invalid Email Address. Please Try Again", "Error",
                             JOptionPane.ERROR_MESSAGE);
                 }

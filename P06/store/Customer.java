@@ -10,7 +10,7 @@ public class Customer {
         this.email = email;
         this.name = name;
 
-        if (!validateEmail(email)) {
+        if (validateEmail(email) != 1) {
             throw new IllegalArgumentException("Invalid Email Syntax ex. name@domain.com");
         }
 
@@ -28,12 +28,16 @@ public class Customer {
     public static final Pattern regexEmail = Pattern.compile("^([a-zA-Z0-9_.-]+)@([a-zA-Z0-9_.-]+).([a-zA-Z]{2,5})$",
             Pattern.CASE_INSENSITIVE);
 
-    public static boolean validateEmail(String email) {
+    public static int validateEmail(String email) {
         //
-
         Matcher matchedPattern = regexEmail.matcher(email);
         boolean isValid = matchedPattern.matches();
-        return isValid;
+        if (isValid) {
+            return 1;
+        } else {
+            return 0;
+        }
+
     }
 
     @Override
