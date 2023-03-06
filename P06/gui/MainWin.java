@@ -62,9 +62,9 @@ public class MainWin extends JFrame {
         JMenuItem customer = new JMenuItem("Customer");
         JMenuItem option = new JMenuItem("Option");
         JMenuItem computer = new JMenuItem("Computer");
-        view.add(customer);
-        view.add(option);
-        view.add(computer);
+        insert.add(customer);
+        insert.add(option);
+        insert.add(computer);
 
         quit.addActionListener(event -> onQuitClick());
         // For Insert
@@ -78,13 +78,11 @@ public class MainWin extends JFrame {
         // For Help
         about.addActionListener(event -> onAboutClick());
 
-        // file.add(anew);
-        // file.add(quit);
-        // help.add(rules);
-        // help.add(about);
+        menubar.add(file);
+        menubar.add(insert);
+        menubar.add(view);
+        menubar.add(help);
 
-        // menubar.add(file);
-        // menubar.add(help);
         setJMenuBar(menubar);
 
         // ///////////// //////////////////////////////////////////////////////////
@@ -152,13 +150,13 @@ public class MainWin extends JFrame {
         // /////////////////////////// ////////////////////////////////////////////
         // D I S P L A Y
         // Provide a text entry box to show the remaining sticks
-        final String computerString = "COMPUTERS";
-        final String customerString = "CUSTOMERS";
-        JList<String> computerList = new JList<String>();
+        final String computerString[] = {};
+        final String customerString[] = {};
+        JList<String> computerList = new JList<String>(computerString);
         computerList.setFont(new Font("SansSerif", Font.BOLD, 18));
         add(computerList, BorderLayout.CENTER);
 
-        JList<String> customerList = new JList<String>();
+        JList<String> customerList = new JList<String>(customerString);
         customerList.setFont(new Font("SansSerif", Font.BOLD, 18));
         add(customerList, BorderLayout.LINE_END);
 
