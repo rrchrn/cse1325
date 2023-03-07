@@ -232,8 +232,10 @@ public class MainWin extends JFrame {
         if (dialogBox == JOptionPane.YES_OPTION) {
             try {
                 long costLong = (long) (Double.parseDouble(cost.getText()) * 100.00);
-                Option newOption = new Option(optionName.getText(), (costLong));
+                Option newOption = new Option(optionName.getText(), costLong);
+
                 store.add(newOption);
+
                 JOptionPane.showMessageDialog(null, "Option Added!", "Confirmation", JOptionPane.PLAIN_MESSAGE);
 
             } catch (IllegalArgumentException e) {
@@ -254,12 +256,12 @@ public class MainWin extends JFrame {
         JTextField computerName = new JTextField(40);
         JTextField computerModel = new JTextField(40);
 
-        // OBJECT/>?
+        // OBJECT///
         Object[] optionChoices = store.options(); // List all options
-        String optionChoicesText = Arrays.toString(optionChoices); // get the text from optionChoices
-        // String[] options = optionChoicesText.split(",");
+        String[] options = Arrays.stream(optionChoices).map(Object::toString).toArray(String[]::new); // get the text
+                                                                                                      // from
+                                                                                                      // optionChoices
 
-        String[] options = Arrays.stream(optionChoices).map(Object::toString).toArray(String[]::new);
         JComboBox<String> comboBox = new JComboBox<>(options);
 
         Object[] labels = { "Computer Name", computerName, "Computer Model", computerModel, comboBox };
