@@ -229,6 +229,7 @@ public class MainWin extends JFrame {
         int dialogBox = JOptionPane.showConfirmDialog(frame, labels, "New Option", JOptionPane.OK_CANCEL_OPTION,
                 JOptionPane.PLAIN_MESSAGE);
 
+        // Need to put add button so if dialogBox == add then add and then do again
         if (dialogBox == JOptionPane.YES_OPTION) {
             try {
                 long costLong = (long) (Double.parseDouble(cost.getText()) * 100.00);
@@ -245,7 +246,7 @@ public class MainWin extends JFrame {
             } catch (Exception e) {
 
             }
-        } else {
+        } else { // this will be where the cancel will go
             return;
         }
 
@@ -261,42 +262,40 @@ public class MainWin extends JFrame {
         String[] options = Arrays.stream(optionChoices).map(Object::toString).toArray(String[]::new); // get the text
                                                                                                       // from
                                                                                                       // optionChoices
-
         JComboBox<String> comboBox = new JComboBox<>(options);
 
-        Object[] labels = { "Computer Name", computerName, "Computer Model", computerModel, comboBox };
+        Object[] labels = { "Computer Name", computerName, "Computer Model", computerModel, "Options", comboBox };
 
-        int dialogBox = JOptionPane.showConfirmDialog(frame, labels, "New Computer", JOptionPane.OK_CANCEL_OPTION,
-                JOptionPane.PLAIN_MESSAGE);
+        JOptionPane newOptionPane = new JOptionPane();
+        newOptionPane.setMessage(labels);
 
-        if (dialogBox == JOptionPane.OK_OPTION) {
+        // Create Buttons
+
+        JButton okButton = new JButton("Ok");
+        JButton addButton = new JButton("Add");
+        JButton cancelButton = new JButton("Cancel");
+
+        newOptionPane.setOptions(new Object[] { okButton, "OK", "Cancel" });
+
+        Computer newComputer = new Computer(computerName.getText(), computerModel.getText());
+
+        addButton.addActionListener(event -> {
+            Option selectedObject = (Option) comboBox.getSelectedItem();
+            newComputer.addOption(selectedObject);
+        });
+
+        if ((Integer) newOptionPane.getValue() == JOptionPane.OK_OPTION) {
             try {
-
-                Computer newComputer = new Computer(computerName.getText(), computerModel.getText());
-                Option selectedObject = (Option) comboBox.getSelectedItem();
-                newComputer.addOption(selectedObject);
-
-                int optionIndex = comboBox.getSelectedIndex();
-                while (optionIndex != -1) {
-                    selectedObject = (Option) comboBox.getSelectedItem();
-                    newComputer.addOption(selectedObject);
-                    optionIndex = comboBox.getSelectedIndex();
-                }
-
                 store.add(newComputer);
                 JOptionPane.showMessageDialog(null, "Computer Added!", "Confirmation", JOptionPane.PLAIN_MESSAGE);
-
             } catch (IllegalArgumentException e) {
                 System.out.println(e);
                 JOptionPane.showMessageDialog(null, "Invalid Input. Please Try Again", "Error",
                         JOptionPane.ERROR_MESSAGE);
             } catch (Exception e) {
-
+                return;
             }
-        } else {
-            return;
         }
-
     }
 
     protected void onViewClick(Record option) {
