@@ -84,9 +84,10 @@ public class MainWin extends JFrame {
         option.addActionListener(event -> onInsertOptionClick(store));
         computer.addActionListener(event -> onInsertComputerClick(store));
         // For View
-        options.addActionListener(event -> onViewClick(Record.CUSTOMER, store));
-        customers.addActionListener(event -> onViewClick(Record.OPTION, store));
+        options.addActionListener(event -> onViewClick(Record.OPTION, store));
+        customers.addActionListener(event -> onViewClick(Record.CUSTOMER, store));
         computers.addActionListener(event -> onViewClick(Record.COMPUTER, store));
+        orders.addActionListener(event -> onViewClick(Record.ORDER, store));
         // For Help
         about.addActionListener(event -> onAboutClick());
 
@@ -329,7 +330,7 @@ public class MainWin extends JFrame {
                 break;
             }
             default: {
-                throw new IllegalArgumentException("Invalid Record Type");
+                throw new IllegalArgumentException("Invalid Record Type" + record);
 
             }
 
