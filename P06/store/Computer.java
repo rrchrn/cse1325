@@ -52,10 +52,12 @@ public class Computer {
 
     @Override
     public boolean equals(Object o) {
-        if (this.toString().equals(o.toString())) {
+        if (o == this) {
             return true;
         }
-
+        if (!(o instanceof Computer)) {
+            return false;
+        }
         return false;
     }
 }

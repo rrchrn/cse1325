@@ -16,10 +16,10 @@ public class TestStore {
                 new Customer("Prof Rice", "george.rice@uta.edu")
         };
         store.add(new Customer("Prof Rice", "george.rice@uta.edu"));
-        if (!deepEqualsCustomer(customers, store.customers())) {
+        if (!deepEqualsCustomer(customers, store.getCustomers())) {
             System.err.printf(failFormat, "Customer",
                     Arrays.toString(customers),
-                    Arrays.toString(store.customers()));
+                    Arrays.toString(store.getCustomers()));
             result |= vector;
         }
         vector <<= 1;
@@ -29,10 +29,10 @@ public class TestStore {
                 new Option("Mainboard", 20000)
         };
         store.add(new Option("Mainboard", 20000));
-        if (!deepEqualsOption(options, store.options())) {
+        if (!deepEqualsOption(options, store.getOptions())) {
             System.err.printf(failFormat, "Option",
                     Arrays.toString(options),
-                    Arrays.toString(store.options()));
+                    Arrays.toString(store.getOptions()));
             result |= vector;
         }
         vector <<= 1;
@@ -47,10 +47,10 @@ public class TestStore {
         c = new Computer("SuperCalc", "1Z200XL");
         c.addOption((Option) options[0]);
         store.add(c);
-        if (!deepEqualsComputer(computers, store.computers())) {
+        if (!deepEqualsComputer(computers, store.getComputers())) {
             System.err.printf(failFormat, "Computer",
                     Arrays.toString(computers),
-                    Arrays.toString(store.computers()));
+                    Arrays.toString(store.getComputers()));
             result |= vector;
         }
         vector <<= 1;
@@ -66,10 +66,10 @@ public class TestStore {
         o2.addComputer((Computer) computers[0]);
         store.add(o2);
 
-        if (!deepEqualsOrder(orders, store.orders())) {
+        if (!deepEqualsOrder(orders, store.getOrders())) {
             System.err.printf(failFormat, "Order",
                     Arrays.toString(orders),
-                    Arrays.toString(store.orders()));
+                    Arrays.toString(store.getOrders()));
             result |= vector;
         }
         vector <<= 1;

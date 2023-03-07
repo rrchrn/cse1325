@@ -4,6 +4,7 @@ import store.Computer;
 import store.Customer;
 import store.Store;
 import store.Option;
+import store.Store;
 
 import javax.swing.JFrame; // for main window
 import javax.swing.JOptionPane; // for standard dialogs
@@ -42,6 +43,7 @@ public class MainWin extends JFrame {
         super(title);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(400, 200);
+        Store store = new Store("Store");
 
         // /////// ////////////////////////////////////////////////////////////////
         // M E N U
@@ -78,7 +80,6 @@ public class MainWin extends JFrame {
 
         quit.addActionListener(event -> onQuitClick());
 
-        Store store = new Store("Store");
         // For Insert
         customer.addActionListener(event -> onInsertCustomerClick(store));
         option.addActionListener(event -> onInsertOptionClick(store));
@@ -225,9 +226,9 @@ public class MainWin extends JFrame {
         JTextField optionName = new JTextField(30);
         JTextField cost = new JTextField(40);
 
-        Object[] labelOption = { "Option Name", optionName, "Cost (Write as 4.99 or 5.00)", cost };
+        Object[] labels = { "Option Name", optionName, "Cost (Write as 4.99 or 5.00)", cost };
 
-        int dialogBox = JOptionPane.showConfirmDialog(frame, labelOption, "New Option", JOptionPane.OK_CANCEL_OPTION,
+        int dialogBox = JOptionPane.showConfirmDialog(frame, labels, "New Option", JOptionPane.OK_CANCEL_OPTION,
                 JOptionPane.PLAIN_MESSAGE);
 
         // Need to put add button so if dialogBox == add then add and then do again
@@ -270,19 +271,22 @@ public class MainWin extends JFrame {
                 JOptionPane.PLAIN_MESSAGE);
 
         if (dialogBox == JOptionPane.OK_OPTION) {
+
             try {
                 Computer newComputer = new Computer(computerName.getText(), computerModel.getText());
+                Option selectedObject;
 
                 while (true) {
                     int optionDialog = JOptionPane.showConfirmDialog(frame, labels, "Select Options",
                             JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
                     if (optionDialog == JOptionPane.OK_OPTION) {
-                        Option selectedObject = (Option) comboBox.getSelectedItem();
-                        newComputer.addOption(selectedObject);
+                        selectedObject = (Option) comboBox.getSelectedItem();
                     } else {
                         break;
                     }
                 }
+
+                newComputer.addOption(selectedObject);
 
                 store.add(newComputer);
                 JOptionPane.showMessageDialog(null, "Computer Added!", "Confirmation", JOptionPane.PLAIN_MESSAGE);
@@ -310,23 +314,23 @@ public class MainWin extends JFrame {
         // Switch? based on parameter
         switch (record) {
             case CUSTOMER: {
-                header = "<html><h2>Customers</h2></html>";
+                header = "<html><h2>Customers</h2>";
                 objects = store.getCustomers();
                 break;
             }
             case OPTION: {
-                header = "<html><h2>Options</h2></html>";
+                header = "<html><h2>Options</h2>";
                 objects = store.getOptions();
                 break;
             }
             case COMPUTER: {
-                header = "<html><h2>Computers</h2></html>";
+                header = "<html><h2>Computers</h2>";
                 objects = store.getComputers();
-                System.out.println(Arrays.toString(objects));
+                System.out.println(Arrays.toString(store.getComputers()));
                 break;
             }
             case ORDER: {
-                header = "<html><h2>Orders</h2></html>";
+                header = "<html><h2>Orders</h2>";
                 objects = store.getOrders();
                 break;
             }
@@ -346,7 +350,7 @@ public class MainWin extends JFrame {
         }
         builder.append("</ol></html>");
 
-        JLabel viewClickLabel = new JLabel(header + builder.toString(), SwingConstants.CENTER);
+        JLabel viewClickLabel = new JLabel(header + builder.toString());
         JOptionPane.showMessageDialog(this, viewClickLabel);
 
     }
