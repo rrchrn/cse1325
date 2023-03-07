@@ -66,6 +66,6 @@ public class Store {
     private String name;
     private ArrayList<Customer> customers = new ArrayList<>();
     private ArrayList<Option> options = new ArrayList<>();
-    private ArrayList<Computer> computers = new ArrayList<>();
+    private ArrayList<Computer> computers = new ArrayList<Computer>();
     private ArrayList<Order> orders = new ArrayList<>();
 }

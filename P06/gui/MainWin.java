@@ -225,9 +225,9 @@ public class MainWin extends JFrame {
         JTextField optionName = new JTextField(30);
         JTextField cost = new JTextField(40);
 
-        Object[] labels = { "Option Name", optionName, "Cost (Write as 4.99 or 5.00)", cost };
+        Object[] labelOption = { "Option Name", optionName, "Cost (Write as 4.99 or 5.00)", cost };
 
-        int dialogBox = JOptionPane.showConfirmDialog(frame, labels, "New Option", JOptionPane.OK_CANCEL_OPTION,
+        int dialogBox = JOptionPane.showConfirmDialog(frame, labelOption, "New Option", JOptionPane.OK_CANCEL_OPTION,
                 JOptionPane.PLAIN_MESSAGE);
 
         // Need to put add button so if dialogBox == add then add and then do again
@@ -322,6 +322,7 @@ public class MainWin extends JFrame {
             case COMPUTER: {
                 header = "<html><h2>Computers</h2></html>";
                 objects = store.getComputers();
+                System.out.println(Arrays.toString(objects));
                 break;
             }
             case ORDER: {
@@ -345,8 +346,8 @@ public class MainWin extends JFrame {
         }
         builder.append("</ol></html>");
 
-        JLabel viewClickLabel = new JLabel(header + builder.toString());
-        JOptionPane.showMessageDialog(null, viewClickLabel);
+        JLabel viewClickLabel = new JLabel(header + builder.toString(), SwingConstants.CENTER);
+        JOptionPane.showMessageDialog(this, viewClickLabel);
 
     }
 

@@ -29,7 +29,7 @@ public class Option {
 
     @Override
     public String toString() {
-        return name + " ($" + String.format("%.2f", ((double) cost / 100)) + ")\n";
+        return name + " ($" + cost + ")\n";
     }
 
     @Override
