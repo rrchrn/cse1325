@@ -42,7 +42,7 @@ public class MainWin extends JFrame {
     public MainWin(String title) {
         super(title);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(400, 200);
+        setSize(700, 400);
         Store store = new Store("Store");
 
         // /////// ////////////////////////////////////////////////////////////////
@@ -114,34 +114,36 @@ public class MainWin extends JFrame {
         /// View Customer, Option, Computer
 
         // Insert Option
-        button2 = new JButton(new ImageIcon("gui/resources/InsertOption.png"));
+        JButton button2 = new JButton(new ImageIcon("gui/resources/InsertOption.png"));
         toolbar.add(button2);
         button2.addActionListener(event -> onInsertOptionClick(store));
 
         // Insert Computer
-        button3 = new JButton(new ImageIcon("gui/resources/InsertComputer.png"));
+        JButton button3 = new JButton(new ImageIcon("gui/resources/InsertComputer.png"));
         toolbar.add(button3);
         button3.addActionListener(event -> onInsertComputerClick(store));
 
-        // insert Customer
-        button4 = new JButton(new ImageIcon("gui/resources/InsertCustomer.png"));
-        toolbar.add(button3);
-        button4.addActionListener(event -> onInsertCustomerClick(store)); // NO
+        // Insert Customer
+        JButton button4 = new JButton(new ImageIcon("gui/resources/InsertCustomer.png"));
+        toolbar.add(button4);
+        button4.addActionListener(event -> onInsertCustomerClick(store));
 
-        // view option
-        button5 = new JButton(new ImageIcon("gui/resources/ViewOption.png"));
-        toolbar.add(button3);
-        button5.addActionListener(event -> onViewClick(Record.OPTION, store)); // NO
+        // View Option
+        JButton button5 = new JButton(new ImageIcon("gui/resources/ViewOptions.png"));
+        toolbar.add(button5);
+        button5.addActionListener(event -> onViewClick(Record.OPTION, store));
 
-        // view Computer
-        button6 = new JButton(new ImageIcon("gui/resources/ViewComputer.png"));
-        toolbar.add(button3);
-        button6.addActionListener(event -> onViewClick(Record.COMPUTER, store)); // NO
+        // View Computer
+        JButton button6 = new JButton(new ImageIcon("gui/resources/ViewComputer.png"));
+        toolbar.add(button6);
+        button6.addActionListener(event -> onViewClick(Record.COMPUTER, store));
 
-        // View customer
-        button1 = new JButton(new ImageIcon("gui/resources/ViewCustomer.png"));
+        // View Customer
+        JButton button1 = new JButton(new ImageIcon("gui/resources/ViewCustomer.png"));
         toolbar.add(button1);
         button1.addActionListener(event -> onViewClick(Record.CUSTOMER, store));
+
+        toolbar.add(Box.createHorizontalGlue());
 
         getContentPane().add(toolbar, BorderLayout.PAGE_START);
 
@@ -347,14 +349,14 @@ public class MainWin extends JFrame {
         } catch (IOException e) {
         }
 
-        JLabel title = new JLabel("<html>" + "<p><font size=+4>Nim</font></p>" + "<p>Version 1.4J</p>" + "</html>",
+        JLabel title = new JLabel(
+                "<html>" + "<p><font size=+4>ELSA</font></p>" + "<p>Exceptional Laptops and Supercomputers Always</p>"
+                        + "<p>Version 0.2</p>" + "</html>",
                 SwingConstants.CENTER);
 
         JLabel artists = new JLabel("<html>" + "<br/><p>Copyright 2017-2023 by George F. Rice</p>"
-                + "<p>Licensed under Gnu GPL 3.0</p><br/>" + "<p>Logo by M0tty, licensed under CC BY-SA 3.0</p>"
-                + "<p><font size=-2>https://commons.wikimedia.org/wiki/File:Pyramidal_matches.svg</font></p>"
-                + "<p>Robot by FreePik.com, licensed for personal</p><p>and commercial purposes with attribution</p>"
-                + "<p><font size=-2>https://www.freepik.com/free-vector/grey-robot-silhouettes_714902.htm</font></p>"
+                + "<p>Licensed under Gnu GPL 3.0</p><br/>" + "<p>Logo by Rachael Rocha</p>"
+                + "<p>Insert and View Icons created by Rachael Rocha</p>"
                 + "</html>");
 
         JOptionPane.showMessageDialog(this, new Object[] { logo, title, artists }, "The Game of Nim",
@@ -365,7 +367,6 @@ public class MainWin extends JFrame {
         System.exit(0);
     } // Exit the game
 
-    private JLabel sticks; // Display of sticks on game board
     private JLabel msg; // Status message display
     private JButton button1; // Button to select 1 stick
     private JButton button2; // Button to select 2 sticks
@@ -373,6 +374,5 @@ public class MainWin extends JFrame {
     private JButton button4; // Button to select 1 stick
     private JButton button5; // Button to select 2 sticks
     private JButton button6; // Button to select 3 sticks
-    private JToggleButton computerPlayer; // Button to enable robot
 
 }
