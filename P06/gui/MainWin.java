@@ -29,7 +29,7 @@ import javax.management.openmbean.OpenDataException;
 
 import java.io.File; // opens a file
 import java.io.IOException; // reports an error reading from a file
-
+import java.util.Arrays;
 import java.awt.BorderLayout; // layout manager for main window
 import java.awt.FlowLayout; // layout manager for About dialog
 
@@ -77,10 +77,12 @@ public class MainWin extends JFrame {
         insert.add(order);
 
         quit.addActionListener(event -> onQuitClick());
+
+        Store store = new Store("Store");
         // For Insert
-        customer.addActionListener(event -> onInsertCustomerClick());
-        option.addActionListener(event -> onInsertOptionClick());
-        computer.addActionListener(event -> onInsertComputerClick());
+        customer.addActionListener(event -> onInsertCustomerClick(store));
+        option.addActionListener(event -> onInsertOptionClick(store));
+        computer.addActionListener(event -> onInsertComputerClick(store));
         // For View
         options.addActionListener(event -> onViewClick(Record.CUSTOMER));
         customers.addActionListener(event -> onViewClick(Record.OPTION));
@@ -179,7 +181,7 @@ public class MainWin extends JFrame {
         setVisible(true);
 
         // Instance new Store
-        Store store = new Store("Store");
+
     }
 
     protected enum Record {
@@ -187,11 +189,10 @@ public class MainWin extends JFrame {
     }
 
     // Listeners
-    protected void onInsertCustomerClick() {
+    protected void onInsertCustomerClick(Store store) {
         JFrame frame = new JFrame("New Customer");
         JTextField customerName = new JTextField(30);
         JTextField customerEmail = new JTextField(40);
-        Store store = new Store("Store");
 
         Object[] labels = { "Customer Name", customerName, "Customer email", customerEmail };
 
@@ -218,11 +219,10 @@ public class MainWin extends JFrame {
 
     }
 
-    protected void onInsertOptionClick() {
+    protected void onInsertOptionClick(Store store) {
         JFrame frame = new JFrame("New Customer");
         JTextField optionName = new JTextField(30);
         JTextField cost = new JTextField(40);
-        Store store = new Store("Store");
 
         Object[] labels = { "Option Name", optionName, "Cost", cost };
 
@@ -249,17 +249,22 @@ public class MainWin extends JFrame {
 
     }
 
-    protected void onInsertComputerClick() {
+    protected void onInsertComputerClick(Store store) {
         JFrame frame = new JFrame("New Computer");
         JTextField computerName = new JTextField(40);
         JTextField computerModel = new JTextField(40);
-        Store store = new Store("Store");
 
-        Object[] labels = { "Computer Name", computerName, "Computer Model", computerModel };
-        Object[] optionChoices = { store.options() }; // List all options
-        JComboBox<Object> comboBox = new JComboBox<>(optionChoices);
+        // OBJECT/>?
+        Object[] optionChoices = store.options(); // List all options
+        String optionChoicesText = Arrays.toString(optionChoices); // get the text from optionChoices
+        // String[] options = optionChoicesText.split(",");
 
-        int dialogBox = JOptionPane.showConfirmDialog(frame, comboBox, "New Computer", JOptionPane.OK_CANCEL_OPTION,
+        String[] options = Arrays.stream(optionChoices).map(Object::toString).toArray(String[]::new);
+        JComboBox<String> comboBox = new JComboBox<>(options);
+
+        Object[] labels = { "Computer Name", computerName, "Computer Model", computerModel, comboBox };
+
+        int dialogBox = JOptionPane.showConfirmDialog(frame, labels, "New Computer", JOptionPane.OK_CANCEL_OPTION,
                 JOptionPane.PLAIN_MESSAGE);
 
         if (dialogBox == JOptionPane.OK_OPTION) {
