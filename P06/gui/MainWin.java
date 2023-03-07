@@ -84,9 +84,9 @@ public class MainWin extends JFrame {
         option.addActionListener(event -> onInsertOptionClick(store));
         computer.addActionListener(event -> onInsertComputerClick(store));
         // For View
-        options.addActionListener(event -> onViewClick(Record.CUSTOMER));
-        customers.addActionListener(event -> onViewClick(Record.OPTION));
-        computers.addActionListener(event -> onViewClick(Record.COMPUTER));
+        options.addActionListener(event -> onViewClick(Record.CUSTOMER, store));
+        customers.addActionListener(event -> onViewClick(Record.OPTION, store));
+        computers.addActionListener(event -> onViewClick(Record.COMPUTER, store));
         // For Help
         about.addActionListener(event -> onAboutClick());
 
@@ -258,7 +258,7 @@ public class MainWin extends JFrame {
         JTextField computerModel = new JTextField(40);
 
         // OBJECT///
-        Object[] optionChoices = store.options(); // List all options
+        Object[] optionChoices = store.getOptions(); // List all options
         String[] options = Arrays.stream(optionChoices).map(Object::toString).toArray(String[]::new); // get the text
 
         JComboBox<String> comboBox = new JComboBox<>(options);
@@ -298,7 +298,54 @@ public class MainWin extends JFrame {
         }
     }
 
-    protected void onViewClick(Record option) {
+    protected void onViewClick(Record record, Store store) {
+
+        // Define header
+        String header = "";
+        Object[] objects;
+
+        // CUSTOMER, OPTION, COMPUTER, ORDER
+
+        // Switch? based on parameter
+        switch (record) {
+            case CUSTOMER: {
+                header = "<html><h2>Customers</h2></html>";
+                objects = store.getCustomers();
+                break;
+            }
+            case OPTION: {
+                header = "<html><h2>Options</h2></html>";
+                objects = store.getOptions();
+                break;
+            }
+            case COMPUTER: {
+                header = "<html><h2>Computers</h2></html>";
+                objects = store.getComputers();
+                break;
+            }
+            case ORDER: {
+                header = "<html><h2>Orders</h2></html>";
+                objects = store.getOrders();
+                break;
+            }
+            default: {
+                throw new IllegalArgumentException("Invalid Record Type");
+
+            }
+
+            // Numbered list of objects returned by the store
+            // String Builder that iterates through everything
+
+        }
+
+        StringBuilder builder = new StringBuilder("<html><ol>");
+        for (Object object : objects) {
+            builder.append("<li>" + object.toString() + "</li>");
+        }
+        builder.append("</ol></html>");
+
+        JLabel viewClickLabel = new JLabel(header + builder.toString());
+        JOptionPane.showMessageDialog(null, viewClickLabel);
 
     }
 

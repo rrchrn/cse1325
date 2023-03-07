@@ -20,7 +20,7 @@ public class Store {
             customers.add(customer);
     }
 
-    public Object[] customers() {
+    public Object[] getCustomers() {
         return this.customers.toArray();
     }
 
@@ -32,7 +32,7 @@ public class Store {
             options.add(option);
     }
 
-    public Object[] options() {
+    public Object[] getOptions() {
         return this.options.toArray();
     }
 
@@ -44,7 +44,7 @@ public class Store {
             computers.add(computer);
     }
 
-    public Object[] computers() {
+    public Object[] getComputers() {
         return this.computers.toArray();
     }
 
@@ -56,7 +56,7 @@ public class Store {
             orders.add(order);
     }
 
-    public Object[] orders() {
+    public Object[] getOrders() {
         return this.orders.toArray();
     }
 
