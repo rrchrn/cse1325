@@ -224,7 +224,7 @@ public class MainWin extends JFrame {
         JTextField optionName = new JTextField(30);
         JTextField cost = new JTextField(40);
 
-        Object[] labels = { "Option Name", optionName, "Cost", cost };
+        Object[] labels = { "Option Name", optionName, "Cost (Write as 4.99 or 5.00)", cost };
 
         int dialogBox = JOptionPane.showConfirmDialog(frame, labels, "New Option", JOptionPane.OK_CANCEL_OPTION,
                 JOptionPane.PLAIN_MESSAGE);

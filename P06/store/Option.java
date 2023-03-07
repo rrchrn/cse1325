@@ -16,7 +16,7 @@ public class Option {
     }
 
     public long cost() {
-        return (long) (cost / 100.0);
+        return (long) (cost / 100.00);
     }
 
     public String getName() {
@@ -29,7 +29,7 @@ public class Option {
 
     @Override
     public String toString() {
-        return name + " ($" + String.format(".2f", cost) + ")\n";
+        return name + " ($" + String.format("%.2f", ((double) cost / 100)) + ")\n";
     }
 
     @Override
