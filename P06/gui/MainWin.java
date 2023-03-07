@@ -260,41 +260,41 @@ public class MainWin extends JFrame {
         // OBJECT///
         Object[] optionChoices = store.options(); // List all options
         String[] options = Arrays.stream(optionChoices).map(Object::toString).toArray(String[]::new); // get the text
-                                                                                                      // from
-                                                                                                      // optionChoices
+
         JComboBox<String> comboBox = new JComboBox<>(options);
 
         Object[] labels = { "Computer Name", computerName, "Computer Model", computerModel, "Options", comboBox };
 
-        JOptionPane newOptionPane = new JOptionPane();
-        newOptionPane.setMessage(labels);
+        int dialogBox = JOptionPane.showConfirmDialog(frame, labels, "New Computer", JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.PLAIN_MESSAGE);
 
-        // Create Buttons
-
-        JButton okButton = new JButton("Ok");
-        JButton addButton = new JButton("Add");
-        JButton cancelButton = new JButton("Cancel");
-
-        newOptionPane.setOptions(new Object[] { okButton, "OK", "Cancel" });
-
-        Computer newComputer = new Computer(computerName.getText(), computerModel.getText());
-
-        addButton.addActionListener(event -> {
-            Option selectedObject = (Option) comboBox.getSelectedItem();
-            newComputer.addOption(selectedObject);
-        });
-
-        if ((Integer) newOptionPane.getValue() == JOptionPane.OK_OPTION) {
+        if (dialogBox == JOptionPane.OK_OPTION) {
             try {
+                Computer newComputer = new Computer(computerName.getText(), computerModel.getText());
+
+                while (true) {
+                    int optionDialog = JOptionPane.showConfirmDialog(frame, labels, "Select Options",
+                            JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+                    if (optionDialog == JOptionPane.OK_OPTION) {
+                        Option selectedObject = (Option) comboBox.getSelectedItem();
+                        newComputer.addOption(selectedObject);
+                    } else {
+                        break;
+                    }
+                }
+
                 store.add(newComputer);
                 JOptionPane.showMessageDialog(null, "Computer Added!", "Confirmation", JOptionPane.PLAIN_MESSAGE);
+
             } catch (IllegalArgumentException e) {
                 System.out.println(e);
                 JOptionPane.showMessageDialog(null, "Invalid Input. Please Try Again", "Error",
                         JOptionPane.ERROR_MESSAGE);
             } catch (Exception e) {
-                return;
+                // Handle other exceptions
             }
+        } else {
+            return;
         }
     }
 
