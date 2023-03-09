@@ -297,7 +297,7 @@ public class MainWin extends JFrame {
 
         // CUSTOMER, OPTION, COMPUTER, ORDER
 
-        // Switch? based on parameter
+        // Switch based on parameter
         switch (record) {
             case CUSTOMER: {
                 header = "<html><h2>Customers</h2>";
@@ -312,7 +312,6 @@ public class MainWin extends JFrame {
             case COMPUTER: {
                 header = "<html><h2>Computers</h2>";
                 objects = store.getComputers();
-                System.out.println(Arrays.toString(store.getComputers()));
                 break;
             }
             case ORDER: {
