@@ -114,32 +114,32 @@ public class MainWin extends JFrame {
         /// View Customer, Option, Computer
 
         // Insert Option
-        JButton button2 = new JButton(new ImageIcon("gui/resources/InsertOption.png"));
+        JButton button2 = new JButton(new ImageIcon("gui/resources/add_option.png"));
         toolbar.add(button2);
         button2.addActionListener(event -> onInsertOptionClick(store));
 
         // Insert Computer
-        JButton button3 = new JButton(new ImageIcon("gui/resources/InsertComputer.png"));
+        JButton button3 = new JButton(new ImageIcon("gui/resources/add_computer.png"));
         toolbar.add(button3);
         button3.addActionListener(event -> onInsertComputerClick(store));
 
         // Insert Customer
-        JButton button4 = new JButton(new ImageIcon("gui/resources/InsertCustomer.png"));
+        JButton button4 = new JButton(new ImageIcon("gui/resources/add_customer.png"));
         toolbar.add(button4);
         button4.addActionListener(event -> onInsertCustomerClick(store));
 
         // View Option
-        JButton button5 = new JButton(new ImageIcon("gui/resources/ViewOptions.png"));
+        JButton button5 = new JButton(new ImageIcon("gui/resources/view_options.png"));
         toolbar.add(button5);
         button5.addActionListener(event -> onViewClick(Record.OPTION, store));
 
         // View Computer
-        JButton button6 = new JButton(new ImageIcon("gui/resources/ViewComputer.png"));
+        JButton button6 = new JButton(new ImageIcon("gui/resources/view_computers.png"));
         toolbar.add(button6);
         button6.addActionListener(event -> onViewClick(Record.COMPUTER, store));
 
         // View Customer
-        JButton button1 = new JButton(new ImageIcon("gui/resources/ViewCustomer.png"));
+        JButton button1 = new JButton(new ImageIcon("gui/resources/view_customers.png"));
         toolbar.add(button1);
         button1.addActionListener(event -> onViewClick(Record.CUSTOMER, store));
 
@@ -240,53 +240,34 @@ public class MainWin extends JFrame {
 
     }
 
+    // Professor Rice suggested solution code
     protected void onInsertComputerClick(Store store) {
-        JFrame frame = new JFrame("New Computer");
-        JTextField computerName = new JTextField(40);
-        JTextField computerModel = new JTextField(40);
-
-        // OBJECT///
-        Object[] optionChoices = store.getOptions(); // List all options
-        String[] options = Arrays.stream(optionChoices).map(Object::toString).toArray(String[]::new); // get the text
-
-        JComboBox<String> comboBox = new JComboBox<>(options);
-
-        Object[] labels = { "Computer Name", computerName, "Computer Model", computerModel, "Options", comboBox };
-
-        int dialogBox = JOptionPane.showConfirmDialog(frame, labels, "New Computer", JOptionPane.OK_CANCEL_OPTION,
-                JOptionPane.PLAIN_MESSAGE);
-
-        if (dialogBox == JOptionPane.OK_OPTION) {
-
-            try {
-                Computer newComputer = new Computer(computerName.getText(), computerModel.getText());
-                Option selectedObject = null;
-
-                while (true) {
-                    int optionDialog = JOptionPane.showConfirmDialog(frame, labels, "Select Options",
-                            JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-                    if (optionDialog == JOptionPane.OK_OPTION) {
-                        selectedObject = (Option) comboBox.getSelectedItem();
-                    } else {
-                        break;
-                    }
-                }
-
-                newComputer.addOption(selectedObject);
-
-                store.add(newComputer);
-                JOptionPane.showMessageDialog(null, "Computer Added!", "Confirmation", JOptionPane.PLAIN_MESSAGE);
-
-            } catch (IllegalArgumentException e) {
-                System.out.println(e);
-                JOptionPane.showMessageDialog(null, "Invalid Input. Please Try Again", "Error",
-                        JOptionPane.ERROR_MESSAGE);
-            } catch (Exception e) {
-                // Handle other exceptions
+        try {
+            Computer c = new Computer(
+                    JOptionPane.showInputDialog(this, "Computer name",
+                            "New Computer", JOptionPane.QUESTION_MESSAGE),
+                    JOptionPane.showInputDialog(this, "Computer model",
+                            "New Computer", JOptionPane.QUESTION_MESSAGE));
+            JComboBox<Object> cb = new JComboBox<>(store.getOptions());
+            int optionsAdded = 0; // Don't add computers with no options
+            while (true) {
+                int button = JOptionPane.showConfirmDialog(this, cb,
+                        "Another Option?", JOptionPane.YES_NO_OPTION);
+                if (button != JOptionPane.YES_OPTION)
+                    break;
+                c.addOption((Option) cb.getSelectedItem());
+                ++optionsAdded;
             }
-        } else {
-            return;
+            if (optionsAdded > 0) {
+                store.add(c);
+                onViewClick(Record.COMPUTER, store);
+            }
+        } catch (NullPointerException e) {
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e,
+                    "Computer Not Created", JOptionPane.ERROR_MESSAGE);
         }
+
     }
 
     protected void onViewClick(Record record, Store store) {
@@ -340,25 +321,50 @@ public class MainWin extends JFrame {
 
     }
 
+    // From Professor Rice Suggested Solutions
     protected void onAboutClick() { // Display About dialog
-        JLabel logo = null;
-        try {
-            BufferedImage myPicture = ImageIO.read(new File("128px-Pyramidal_matches.png"));
-            logo = new JLabel(new ImageIcon(myPicture));
-        } catch (IOException e) {
-        }
-
-        JLabel title = new JLabel(
-                "<html>" + "<p><font size=+4>ELSA</font></p>" + "<p>Exceptional Laptops and Supercomputers Always</p>"
-                        + "<p>Version 0.2</p>" + "</html>",
+        JLabel title = new JLabel("<html>"
+                + "<p><font size=+4>ELSA</font></p>"
+                + "</html>",
                 SwingConstants.CENTER);
 
-        JLabel artists = new JLabel("<html>" + "<br/><p>Copyright 2017-2023 by George F. Rice</p>"
-                + "<p>Licensed under Gnu GPL 3.0</p><br/>" + "<p>Logo by Rachael Rocha</p>"
-                + "<p>Insert and View Icons created by Rachael Rocha</p>"
+        JLabel subtitle = new JLabel("<html>"
+                + "<p>Exceptional Laptops and Supercomputers Always</p>"
+                + "</html>",
+                SwingConstants.CENTER);
+
+        JLabel version = new JLabel("<html>"
+                + "<p>Version 0.2</p>"
+                + "</html>",
+                SwingConstants.CENTER);
+
+        JLabel artists = new JLabel("<html>"
+                + "<br/><p>Copyright 2017-2023 by George F. Rice</p>"
+                + "<p>Licensed under Gnu GPL 3.0</p><br/>"
+
+                + "<br/><p>Add Customer icon based on work by Dreamstate per the Flaticon License</p>"
+                + "<p><font size=-2>https://www.flaticon.com/free-icon/user_3114957</font></p>"
+
+                + "<br/><p>View Customers icon based on work by Ilham Fitrotul Hayat per the Flaticon License</p>"
+                + "<p><font size=-2>https://www.flaticon.com/free-icon/group_694642</font></p>"
+
+                + "<br/><p>Add Option icon based on work by Freepik per the Flaticon License</p>"
+                + "<p><font size=-2>https://www.flaticon.com/free-icon/quantum-computing_4103999</font></p>"
+
+                + "<br/><p>View Options icon based on work by Freepik per the Flaticon License</p>"
+                + "<p><font size=-2>https://www.flaticon.com/free-icon/edge_8002173</font></p>"
+
+                + "<br/><p>Add Computer icon based on work by Freepik per the Flaticon License</p>"
+                + "<p><font size=-2>https://www.flaticon.com/free-icon/laptop_689396</font></p>"
+
+                + "<br/><p>View Computers icon based on work by Futuer per the Flaticon License</p>"
+                + "<p><font size=-2>https://www.flaticon.com/free-icon/computer-networks_9672993</font></p>"
+
                 + "</html>");
 
-        JOptionPane.showMessageDialog(this, new Object[] { logo, title, artists }, "The Game of Nim",
+        JOptionPane.showMessageDialog(this,
+                new Object[] { title, subtitle, version, artists },
+                "ELSA",
                 JOptionPane.PLAIN_MESSAGE);
     }
 

@@ -1,10 +1,25 @@
 package store;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
 import java.util.regex.*;
 
 public class Customer {
     String name;
     private String email;
+
+    public void save(BufferedWriter bw) throws IOException {
+        bw.write(name + '\n');
+        bw.write(this.getEmail() + '\n');
+
+    }
+
+    public Customer(BufferedReader br) throws IOException {
+        this.name = br.readLine();
+        this.email = br.readLine();
+
+    }
 
     public Customer(String name, String email) {
         this.email = email;

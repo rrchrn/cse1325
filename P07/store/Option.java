@@ -1,8 +1,23 @@
 package store;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+
 public class Option {
     protected String name;
     protected long cost;
+
+    public void save(BufferedWriter bw) throws IOException {
+        bw.write(name + '\n');
+        bw.write((int) cost + '\n');
+
+    }
+
+    public Option(BufferedReader br) throws IOException {
+        this.name = br.readLine();
+        this.cost = Long.parseLong(br.readLine());
+    }
 
     // component that would og into computer
     public Option(String name, long cost) {

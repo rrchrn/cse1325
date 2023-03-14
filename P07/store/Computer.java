@@ -1,11 +1,34 @@
 package store;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Computer {
     private String name;
     private String model;
     private ArrayList<Option> options = new ArrayList<Option>();
+
+    public void save(BufferedWriter bw) throws IOException {
+        bw.write(name + '\n');
+        bw.write(model + '\n');
+        bw.write(options.size() + '\n');
+        for (Option option : options) {
+            option.save(bw);
+        }
+
+    }
+
+    public Computer(BufferedReader br) throws IOException {
+        this.name = br.readLine();
+        this.model = br.readLine();
+        int numOptions = Integer.parseInt(br.readLine());
+        for (int i = 0; i < numOptions; i++) {
+            Option option = new Option(br);
+            options.add(option);
+        }
+    }
 
     public Computer(String name, String model) {
         this.name = name;

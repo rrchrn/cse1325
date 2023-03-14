@@ -1,9 +1,21 @@
 
 package store;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Store {
+    public void save(BufferedWriter bw) throws IOException {
+        bw.write(name + '\n');
+
+    }
+
+    public Store(BufferedReader br) throws IOException {
+        this.name = br.readLine();
+    }
+
     public Store(String name) {
         this.name = name;
     }
