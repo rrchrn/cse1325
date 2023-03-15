@@ -8,6 +8,7 @@ import store.Store;
 
 import javax.swing.JFrame; // for main window
 import javax.swing.JOptionPane; // for standard dialogs
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 // import javax.swing.JDialog;          // for custom dialogs (for alternate About dialog)
 import javax.swing.JMenuBar; // row of menu selections
@@ -325,6 +326,7 @@ public class MainWin extends JFrame {
     protected void onAboutClick() { // Display About dialog
 
         // Add logo to front here
+        JPanel aboutPanel = new JPanel();
 
         ImageIcon aboutImage = new ImageIcon("gui/resources/about_icon.png");
         JLabel aboutIcon = new JLabel(aboutImage, JLabel.CENTER);
@@ -369,7 +371,7 @@ public class MainWin extends JFrame {
                 + "</html>");
 
         JOptionPane.showMessageDialog(this,
-                new Object[] { title, subtitle, version, artists },
+                new Object[] { aboutIcon, title, subtitle, version, artists },
                 "ELSA",
                 JOptionPane.PLAIN_MESSAGE);
     }
