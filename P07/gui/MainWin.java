@@ -323,6 +323,12 @@ public class MainWin extends JFrame {
 
     // From Professor Rice Suggested Solutions
     protected void onAboutClick() { // Display About dialog
+
+        // Add logo to front here
+
+        ImageIcon aboutImage = new ImageIcon("gui/resources/about_icon.png");
+        JLabel aboutIcon = new JLabel(aboutImage, JLabel.CENTER);
+
         JLabel title = new JLabel("<html>"
                 + "<p><font size=+4>ELSA</font></p>"
                 + "</html>",
