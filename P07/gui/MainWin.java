@@ -105,7 +105,7 @@ public class MainWin extends JFrame {
 
         // Add a toolbar to the PAGE_START region below the menu
         // REMOVE FOR NOW
-        JToolBar toolbar = new JToolBar("ELSA Controls");
+        JToolBar toolbar = new JToolBar();
 
         // Create the 3 buttons using the icons provided
 
@@ -129,6 +129,8 @@ public class MainWin extends JFrame {
         toolbar.add(button4);
         button4.addActionListener(event -> onInsertCustomerClick(store));
 
+        // add seperator
+        toolbar.addSeparator();
         // View Option
         JButton button5 = new JButton(new ImageIcon("gui/resources/view_options.png"));
         toolbar.add(button5);
@@ -367,6 +369,9 @@ public class MainWin extends JFrame {
 
                 + "<br/><p>View Computers icon based on work by Futuer per the Flaticon License</p>"
                 + "<p><font size=-2>https://www.flaticon.com/free-icon/computer-networks_9672993</font></p>"
+
+                + "<br/><p>About icon based on work by Leremy per the Flaticon License</p>"
+                + "<p><font size=-2>https://www.flaticon.com/free-icon/computer_9991911</font></p>"
 
                 + "</html>");
 
