@@ -355,7 +355,8 @@ public class MainWin extends JFrame {
                 Graphics2D g = (Graphics2D) graphics.create(); // Clone and cast
                 int width = getWidth();
                 int height = getHeight();
-
+                /// From StackOverflow
+                g.setColor(Color.GREEN);
                 g.drawLine(0, height / 2, width / 2, 0);
                 g.setColor(Color.BLUE);
                 g.drawLine(width / 2, 0, width, height / 2);
@@ -363,6 +364,9 @@ public class MainWin extends JFrame {
                 g.drawLine(0, height, width / 2, height / 2);
                 g.setColor(Color.CYAN);
                 g.drawLine(width / 2, height / 2, width, height);
+                g.drawString("\n\nI love Computers !!", width, height);
+                
+                g.drawImage(, null, width, height);
             }
         }
 
@@ -370,6 +374,9 @@ public class MainWin extends JFrame {
 
         Canvas canvas = new Canvas();
         JLabel aboutIcon = new JLabel(aboutImage, JLabel.CENTER);
+        int answerWidth = getWidth();
+        int answerHeight = getHeight();
+        System.out.println(answerHeight + "   " + answerWidth);
 
         JLabel title = new JLabel("<html>"
                 + "<p><font size=+4>ELSA</font></p>"
