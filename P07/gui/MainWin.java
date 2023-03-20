@@ -364,10 +364,9 @@ public class MainWin extends JFrame {
                 g.drawLine(0, height, width / 2, height / 2);
                 g.setColor(Color.CYAN);
                 g.drawLine(width / 2, height / 2, width, height);
-                g.setColor(Color.DARK_GRAY);
-                ;
-                g.drawString("\n\n!! ELSA !!", width / 2, height / 2);
-                g.drawImage(image, width, height, this);
+                g.setColor(Color.RED);
+                g.drawString("\n\n!! ELSA !!", (width / 2) + 40, height / 2);
+                g.drawImage(image, (width / 2) - 70, (height / 2) - 60, this);
 
             }
         }
