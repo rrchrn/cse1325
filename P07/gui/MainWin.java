@@ -10,6 +10,10 @@ import javax.swing.JFrame; // for main window
 import javax.swing.JOptionPane; // for standard dialogs
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.JPanel;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 // import javax.swing.JDialog;          // for custom dialogs (for alternate About dialog)
 import javax.swing.JMenuBar; // row of menu selections
 import javax.swing.JMenu; // menu selection that offers another menu
@@ -105,12 +109,13 @@ public class MainWin extends JFrame {
 
         // Add a toolbar to the PAGE_START region below the menu
         // REMOVE FOR NOW
-        JToolBar toolbar = new JToolBar();
+        JToolBar toolbar = new JToolBar("ELSA Controls");
 
         // Create the 3 buttons using the icons provided
 
         // NEED to create 6 Buttons
 
+        // 3 more buttons - save, save as, new , open,
         /// Insert Customer, Option, Computer
         /// View Customer, Option, Computer
 
@@ -324,13 +329,46 @@ public class MainWin extends JFrame {
 
     }
 
+    ////////////////// ABOUT CLICK //////////////////////////
     // From Professor Rice Suggested Solutions
     protected void onAboutClick() { // Display About dialog
 
-        // Add logo to front here
-        JPanel aboutPanel = new JPanel();
+        class Line {
+            Line(int x1, int y1, int x2, int y2) {
+                this.x1 = x1;
+                this.y1 = y1;
+                this.x2 = x2;
+                this.y2 = y2;
+            }
+
+            final int x1, y1, x2, y2;
+        }
+
+        class Canvas extends JPanel {
+            public Dimension getPreferredSize() {
+                return new Dimension(250, 200); // Suggest canvas size
+            }
+
+            @Override
+            public void paintComponent(Graphics graphics) {
+                super.paintComponent(graphics); // Give JPanel a turn
+                Graphics2D g = (Graphics2D) graphics.create(); // Clone and cast
+                int width = getWidth();
+                int height = getHeight();
+
+                g.drawLine(0, height / 2, width / 2, 0);
+                g.setColor(Color.BLUE);
+                g.drawLine(width / 2, 0, width, height / 2);
+                g.setColor(Color.MAGENTA);
+                g.drawLine(0, height, width / 2, height / 2);
+                g.setColor(Color.CYAN);
+                g.drawLine(width / 2, height / 2, width, height);
+            }
+        }
 
         ImageIcon aboutImage = new ImageIcon("gui/resources/about_icon.png");
+
+        Canvas canvas = new Canvas();
         JLabel aboutIcon = new JLabel(aboutImage, JLabel.CENTER);
 
         JLabel title = new JLabel("<html>"
@@ -376,7 +414,7 @@ public class MainWin extends JFrame {
                 + "</html>");
 
         JOptionPane.showMessageDialog(this,
-                new Object[] { aboutIcon, title, subtitle, version, artists },
+                new Object[] { canvas, aboutIcon, title, subtitle, version, artists },
                 "ELSA",
                 JOptionPane.PLAIN_MESSAGE);
     }
@@ -386,11 +424,6 @@ public class MainWin extends JFrame {
     } // Exit the game
 
     private JLabel msg; // Status message display
-    private JButton button1; // Button to select 1 stick
-    private JButton button2; // Button to select 2 sticks
-    private JButton button3;
-    private JButton button4; // Button to select 1 stick
-    private JButton button5; // Button to select 2 sticks
-    private JButton button6; // Button to select 3 sticks
+    private BufferedImage image;
 
 }

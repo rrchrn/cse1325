@@ -7,6 +7,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Store {
+    public Store(String name) {
+        this.name = name;
+    }
+
     public void save(BufferedWriter bw) throws IOException {
         bw.write(name + '\n');
 
@@ -14,10 +18,6 @@ public class Store {
 
     public Store(BufferedReader br) throws IOException {
         this.name = br.readLine();
-    }
-
-    public Store(String name) {
-        this.name = name;
     }
 
     public String name() {

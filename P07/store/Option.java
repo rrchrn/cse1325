@@ -8,6 +8,16 @@ public class Option {
     protected String name;
     protected long cost;
 
+    public Option(String name, long cost) {
+        this.name = name;
+        this.cost = cost;
+
+        if (cost < 0) {
+            throw new IllegalArgumentException("Cost cannot be negative");
+        }
+
+    }
+
     public void save(BufferedWriter bw) throws IOException {
         bw.write(name + '\n');
         bw.write((int) cost + '\n');
@@ -20,15 +30,6 @@ public class Option {
     }
 
     // component that would og into computer
-    public Option(String name, long cost) {
-        this.name = name;
-        this.cost = cost;
-
-        if (cost < 0) {
-            throw new IllegalArgumentException("Cost cannot be negative");
-        }
-
-    }
 
     public long cost() {
         return (long) (cost / 100.00);

@@ -9,6 +9,16 @@ public class Customer {
     String name;
     private String email;
 
+    public Customer(String name, String email) {
+        this.email = email;
+        this.name = name;
+
+        if (validateEmail(email) != 1) {
+            throw new IllegalArgumentException("Invalid Email Syntax ex. name@domain.com");
+        }
+
+    }
+
     public void save(BufferedWriter bw) throws IOException {
         bw.write(name + '\n');
         bw.write(this.getEmail() + '\n');
@@ -18,16 +28,6 @@ public class Customer {
     public Customer(BufferedReader br) throws IOException {
         this.name = br.readLine();
         this.email = br.readLine();
-
-    }
-
-    public Customer(String name, String email) {
-        this.email = email;
-        this.name = name;
-
-        if (validateEmail(email) != 1) {
-            throw new IllegalArgumentException("Invalid Email Syntax ex. name@domain.com");
-        }
 
     }
 
