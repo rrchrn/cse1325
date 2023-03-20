@@ -56,9 +56,23 @@ public class MainWin extends JFrame {
 
         JMenuBar menubar = new JMenuBar();
 
+        // File Tab
         JMenu file = new JMenu("File");
+        // Create New, Open, Save, Save As Menu Items//
+        JMenuItem anew = new JMenuItem("New");
+        JMenuItem open = new JMenuItem("Open");
+        JMenuItem save = new JMenuItem("Save");
+        JMenuItem saveAs = new JMenuItem("Save As");
         JMenuItem quit = new JMenuItem("Quit");
+        file.add(anew);
+        file.add(open);
+        file.add(save);
+        file.add(saveAs);
 
+        // ^^^^^^ Add action listener events
+        file.add(quit);
+
+        // HELP Tab
         JMenu help = new JMenu("Help");
         JMenuItem about = new JMenuItem("About");
         help.add(about);
@@ -83,6 +97,7 @@ public class MainWin extends JFrame {
         insert.add(computer);
         insert.add(order);
 
+        // For File
         quit.addActionListener(event -> onQuitClick());
 
         // For Insert
@@ -414,7 +429,7 @@ public class MainWin extends JFrame {
                 + "<p><font size=-2>https://www.flaticon.com/free-icon/computer_9991911</font></p>"
 
                 // Add Icon
-                + "<br/><p>Add Icon based on work by Ilham Fitrotul Hayat per the Flaticon License</p>"
+                + "<br/><p>New Store Icon based on work by Ilham Fitrotul Hayat per the Flaticon License</p>"
                 + "<p><font size=-2>https://www.flaticon.com/free-icon/add_3394636</font></p>"
 
                 // Open Icon
