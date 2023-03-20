@@ -98,6 +98,10 @@ public class MainWin extends JFrame {
         insert.add(order);
 
         // For File
+        anew.addActionListener(event -> onNewStoreClick());
+        open.addActionListener(event -> onAddStoreClick());
+        save.addActionListener(event -> OnSaveClick());
+        saveAs.addActionListener(event -> onSaveAsClick());
         quit.addActionListener(event -> onQuitClick());
 
         // For Insert
@@ -126,13 +130,14 @@ public class MainWin extends JFrame {
         // REMOVE FOR NOW
         JToolBar toolbar = new JToolBar("ELSA Controls");
 
-        // Create the 3 buttons using the icons provided
-
-        // NEED to create 6 Buttons
-
-        // 3 more buttons - save, save as, new , open,
+        // 3 more buttons - save, save as, new, open,
         /// Insert Customer, Option, Computer
         /// View Customer, Option, Computer
+
+        // File - New
+        // File - Open
+        // File - Save
+        // File -Save As
 
         // Insert Option
         JButton button2 = new JButton(new ImageIcon("gui/resources/add_option.png"));
