@@ -333,18 +333,17 @@ public class MainWin extends JFrame {
     // From Professor Rice Suggested Solutions
     protected void onAboutClick() { // Display About dialog
 
-        class Line {
-            Line(int x1, int y1, int x2, int y2) {
-                this.x1 = x1;
-                this.y1 = y1;
-                this.x2 = x2;
-                this.y2 = y2;
+        class Canvas extends JPanel {
+
+            public Canvas() {
+                String imageFile = "gui/resources/about_icon.png";
+                try {
+                    image = ImageIO.read(new File(imageFile));
+                } catch (IOException e) {
+                    throw new RuntimeException("Unable to load image from " + imageFile, e);
+                }
             }
 
-            final int x1, y1, x2, y2;
-        }
-
-        class Canvas extends JPanel {
             public Dimension getPreferredSize() {
                 return new Dimension(250, 200); // Suggest canvas size
             }
@@ -355,6 +354,7 @@ public class MainWin extends JFrame {
                 Graphics2D g = (Graphics2D) graphics.create(); // Clone and cast
                 int width = getWidth();
                 int height = getHeight();
+
                 /// From StackOverflow
                 g.setColor(Color.GREEN);
                 g.drawLine(0, height / 2, width / 2, 0);
@@ -364,19 +364,15 @@ public class MainWin extends JFrame {
                 g.drawLine(0, height, width / 2, height / 2);
                 g.setColor(Color.CYAN);
                 g.drawLine(width / 2, height / 2, width, height);
-                g.drawString("\n\nI love Computers !!", width, height);
-                
-                g.drawImage(, null, width, height);
+                g.setColor(Color.DARK_GRAY);
+                ;
+                g.drawString("\n\n!! ELSA !!", width / 2, height / 2);
+                g.drawImage(image, width, height, this);
+
             }
         }
 
-        ImageIcon aboutImage = new ImageIcon("gui/resources/about_icon.png");
-
         Canvas canvas = new Canvas();
-        JLabel aboutIcon = new JLabel(aboutImage, JLabel.CENTER);
-        int answerWidth = getWidth();
-        int answerHeight = getHeight();
-        System.out.println(answerHeight + "   " + answerWidth);
 
         JLabel title = new JLabel("<html>"
                 + "<p><font size=+4>ELSA</font></p>"
@@ -421,7 +417,7 @@ public class MainWin extends JFrame {
                 + "</html>");
 
         JOptionPane.showMessageDialog(this,
-                new Object[] { canvas, aboutIcon, title, subtitle, version, artists },
+                new Object[] { canvas, title, subtitle, version, artists },
                 "ELSA",
                 JOptionPane.PLAIN_MESSAGE);
     }
