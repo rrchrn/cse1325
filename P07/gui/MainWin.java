@@ -413,6 +413,22 @@ public class MainWin extends JFrame {
                 + "<br/><p>About icon based on work by Leremy per the Flaticon License</p>"
                 + "<p><font size=-2>https://www.flaticon.com/free-icon/computer_9991911</font></p>"
 
+                // Add Icon
+                + "<br/><p>Add Icon based on work by Ilham Fitrotul Hayat per the Flaticon License</p>"
+                + "<p><font size=-2>https://www.flaticon.com/free-icon/add_3394636</font></p>"
+
+                // Open Icon
+                + "<br/><p>Open Icon based on work by Freepik per the Flaticon license</p>"
+                + "<p><font size=-2>https://www.flaticon.com/free-icon/folder_73581</font></p>"
+
+                // Save Icon
+                + "<br/><p>Save Icon based on work by Yogi Aprelliyanto per the Flaticon License</p>"
+                + "<p><font size=-2>https://www.flaticon.com/free-icon/diskette_2874091</font></p>"
+
+                // Save as icon
+                + "<br/><p>Save As Icon based on work by Yogi Aprelliyanto per the Flaticon License</p>"
+                + "<p><font size=-2>https://www.flaticon.com/free-icon/diskette_2874050</font></p>"
+
                 + "</html>");
 
         JOptionPane.showMessageDialog(this,
