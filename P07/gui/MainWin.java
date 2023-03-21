@@ -4,16 +4,25 @@ import store.Computer;
 import store.Customer;
 import store.Store;
 import store.Option;
-import store.Store;
-
 import javax.swing.JFrame; // for main window
 import javax.swing.JOptionPane; // for standard dialogs
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.JPanel;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
+import java.io.File;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+
 // import javax.swing.JDialog;          // for custom dialogs (for alternate About dialog)
 import javax.swing.JMenuBar; // row of menu selections
 import javax.swing.JMenu; // menu selection that offers another menu
@@ -21,6 +30,7 @@ import javax.swing.JMenuItem; // menu selection that does something
 import javax.swing.JToolBar; // row of buttons under the menu
 import javax.swing.JButton; // regular button
 import javax.swing.JComboBox;
+
 import javax.swing.JToggleButton; // 2-state button
 import javax.swing.BorderFactory; // manufacturers Border objects around buttons
 import javax.swing.Box; // to create toolbar spacer
@@ -33,8 +43,6 @@ import javax.swing.SwingConstants; // useful values for Swing method calls
 import javax.imageio.ImageIO; // loads an image from a file
 import javax.management.openmbean.OpenDataException;
 
-import java.io.File; // opens a file
-import java.io.IOException; // reports an error reading from a file
 import java.util.Arrays;
 import java.awt.BorderLayout; // layout manager for main window
 import java.awt.FlowLayout; // layout manager for About dialog
@@ -99,7 +107,7 @@ public class MainWin extends JFrame {
 
         // For File
         anew.addActionListener(event -> onNewStoreClick());
-        open.addActionListener(event -> onAddStoreClick());
+        open.addActionListener(event -> onOpenStoreClick());
         save.addActionListener(event -> OnSaveClick());
         saveAs.addActionListener(event -> onSaveAsClick());
         quit.addActionListener(event -> onQuitClick());
@@ -131,14 +139,25 @@ public class MainWin extends JFrame {
         JToolBar toolbar = new JToolBar("ELSA Controls");
 
         // 3 more buttons - save, save as, new, open,
-        /// Insert Customer, Option, Computer
-        /// View Customer, Option, Computer
 
         // File - New
+        JButton newButton = new JButton(new ImageIcon("gui/resources/new_icon.png"));
+        toolbar.add(newButton);
+        newButton.addActionListener(event -> onNewStoreClick());
         // File - Open
+        JButton openButton = new JButton(new ImageIcon("gui/resources/open_icon.png"));
+        toolbar.add(newButton);
+        openButton.addActionListener(event -> onOpenStoreClick());
         // File - Save
+        JButton saveButton = new JButton(new ImageIcon("gui/resources/save_icon.png"));
+        toolbar.add(newButton);
+        saveButton.addActionListener(event -> OnSaveClick());
         // File -Save As
+        JButton saveasButton = new JButton(new ImageIcon("gui/resources/saveas_icon.png"));
+        toolbar.add(newButton);
+        saveasButton.addActionListener(event -> onSaveAsClick());
 
+        toolbar.addSeparator();
         // Insert Option
         JButton button2 = new JButton(new ImageIcon("gui/resources/add_option.png"));
         toolbar.add(button2);
@@ -202,6 +221,50 @@ public class MainWin extends JFrame {
 
     protected enum Record {
         CUSTOMER, OPTION, COMPUTER, ORDER
+    }
+
+    // File Button Listeners
+
+    // New
+    protected void onNewStoreClick() {
+        newStore = new Store("New Store");
+        msg.setFont(new JLabel().getFont());
+    }
+
+    // Open from Prof Rice solution
+    protected void onOpenStoreClick() {
+        final JFileChooser fc = new JFileChooser(filename); // Create a file chooser dialog
+        FileFilter storeFiles = new FileNameExtensionFilter("ELSA files", "ELSA");
+        fc.addChoosableFileFilter(storeFiles); // Add "Nim file" filter
+        fc.setFileFilter(storeFiles); // Show Nim files only by default
+
+        int result = fc.showOpenDialog(this); // Run dialog, return button clicked
+        if (result == JFileChooser.APPROVE_OPTION) { // Also CANCEL_OPTION and ERROR_OPTION
+            filename = fc.getSelectedFile(); // Obtain the selected File object
+
+            try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
+                // Fill for open store
+                if (computerUser.isSelected()) {
+                    computerUser.doClick();
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Unable to open " + filename + '\n' + e,
+                        "Failed", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+
+    }
+
+    // Save
+    protected void OnSaveClick() {
+
+    }
+
+    // SaveAs
+    protected void onSaveAsClick() {
+        final JFileChooser fc = new JFileChooser(filename);
+        FileFilter storeFiles = FileNameExtensionFilter("ELSA Files", "ELSA");
+
     }
 
     // Listeners
@@ -462,6 +525,9 @@ public class MainWin extends JFrame {
     } // Exit the game
 
     private JLabel msg; // Status message display
+    private File filename;
     private BufferedImage image;
+    private Store newStore;
+    private JToggleButton computerUser;
 
 }
