@@ -146,15 +146,15 @@ public class MainWin extends JFrame {
         newButton.addActionListener(event -> onNewStoreClick());
         // File - Open
         JButton openButton = new JButton(new ImageIcon("gui/resources/open_icon.png"));
-        toolbar.add(newButton);
+        toolbar.add(openButton);
         openButton.addActionListener(event -> onOpenStoreClick());
         // File - Save
         JButton saveButton = new JButton(new ImageIcon("gui/resources/save_icon.png"));
-        toolbar.add(newButton);
+        toolbar.add(saveButton);
         saveButton.addActionListener(event -> OnSaveClick());
         // File -Save As
         JButton saveasButton = new JButton(new ImageIcon("gui/resources/saveas_icon.png"));
-        toolbar.add(newButton);
+        toolbar.add(saveasButton);
         saveasButton.addActionListener(event -> onSaveAsClick());
 
         toolbar.addSeparator();
