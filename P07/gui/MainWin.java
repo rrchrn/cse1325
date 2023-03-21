@@ -263,8 +263,18 @@ public class MainWin extends JFrame {
     // SaveAs
     protected void onSaveAsClick() {
         final JFileChooser fc = new JFileChooser(filename);
-        FileFilter storeFiles = FileNameExtensionFilter("ELSA Files", "ELSA");
+        FileFilter storeFiles = new FileNameExtensionFilter("ELSA Files", "ELSA");
+        fc.addChoosableFileFilter(storeFiles);
+        fc.setFileFilter(storeFiles);
 
+        int result = fc.showSaveDialog(this);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            filename = fc.getSelectedFile();
+            if (!filename.getAbsolutePath().endsWith(".store")) {
+                filename = new File(filename.getAbsolutePath() + ".store");
+                OnSaveClick();
+            }
+        }
     }
 
     // Listeners
