@@ -247,10 +247,15 @@ public class MainWin extends JFrame {
             filename = fc.getSelectedFile(); // Obtain the selected File object
 
             try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
+
                 // Fill for open store
-                if (computerUser.isSelected()) {
-                    computerUser.doClick();
+                if (computerUser != null && computerUser.isSelected()) {
+                    // Fill for open store
+                    if (computerUser.isSelected()) {
+                        computerUser.doClick();
+                    }
                 }
+
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(this, "Unable to open " + filename + '\n' + e,
                         "Failed", JOptionPane.ERROR_MESSAGE);
@@ -261,15 +266,18 @@ public class MainWin extends JFrame {
 
     // Save
     protected void OnSaveClick() {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(filename))) {
-            bw.write("ELSA" + '\n');
-            bw.write("1.0" + '\n');
-            newStore.save(bw);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Unable to open " + filename + '\n' + e,
-                    "Failed", JOptionPane.ERROR_MESSAGE);
+        if (newStore != null) {
+            try (BufferedWriter bw = new BufferedWriter(new FileWriter(filename))) {
+                bw.write("ELSA" + '\n');
+                bw.write("1.0" + '\n');
+                newStore.save(bw);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Unable to open " + filename + '\n' + e,
+                        "Failed", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "No store to save.", "Failed", JOptionPane.ERROR_MESSAGE);
         }
-
     }
 
     // SaveAs

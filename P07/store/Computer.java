@@ -40,10 +40,11 @@ public class Computer {
 
     }
 
-    public long cost() {
-        long totalCost = 0;
+    public double cost() {
+        double totalCost = 0;
         for (Option i : options) {
             totalCost = totalCost + i.getCost();
+            totalCost = totalCost / 100.00;
         }
         return totalCost;
     }
