@@ -139,7 +139,7 @@ public class MainWin extends JFrame {
         JToolBar toolbar = new JToolBar("ELSA Controls");
 
         // 3 more buttons - save, save as, new, open,
-
+        toolbar.addSeparator();
         // File - New
         JButton newButton = new JButton(new ImageIcon("gui/resources/new_icon.png"));
         toolbar.add(newButton);
@@ -227,14 +227,18 @@ public class MainWin extends JFrame {
 
     // New
     protected void onNewStoreClick() {
-        newStore = new Store("New Store");
+
+        String storeName = JOptionPane.showInputDialog("Enter the name of your new store:");
+        if (storeName != null && !storeName.isEmpty()) {
+            newStore = new Store(storeName);
+        }
         msg.setFont(new JLabel().getFont());
     }
 
     // Open from Prof Rice solution
     protected void onOpenStoreClick() {
         final JFileChooser fc = new JFileChooser(filename); // Create a file chooser dialog
-        FileFilter storeFiles = new FileNameExtensionFilter("ELSA files", "ELSA");
+        FileFilter storeFiles = new FileNameExtensionFilter("Store files", "store");
         fc.addChoosableFileFilter(storeFiles); // Add "Nim file" filter
         fc.setFileFilter(storeFiles); // Show Nim files only by default
 
@@ -271,7 +275,7 @@ public class MainWin extends JFrame {
     // SaveAs
     protected void onSaveAsClick() {
         final JFileChooser fc = new JFileChooser(filename);
-        FileFilter storeFiles = new FileNameExtensionFilter("ELSA Files", "ELSA");
+        FileFilter storeFiles = new FileNameExtensionFilter("Store Files", "store");
         fc.addChoosableFileFilter(storeFiles);
         fc.setFileFilter(storeFiles);
 
