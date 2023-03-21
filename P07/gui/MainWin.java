@@ -260,7 +260,7 @@ public class MainWin extends JFrame {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(filename))) {
             bw.write("ELSA" + '\n');
             bw.write("1.0" + '\n');
-            nim.save(bw);
+            newStore.save(bw);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Unable to open " + filename + '\n' + e,
                     "Failed", JOptionPane.ERROR_MESSAGE);
