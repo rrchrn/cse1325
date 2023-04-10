@@ -15,7 +15,7 @@
 
 
 
-void Vending_Machine::add(std::string name, int price) {
+void Vending_Machine::add(std::string name, double price) {
     int cents = static_cast<int>(price * 100);
     Item item(name, cents);
     items.push_back(item);

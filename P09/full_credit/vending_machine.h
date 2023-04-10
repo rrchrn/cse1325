@@ -7,7 +7,7 @@
 
 class Vending_Machine {
     public:
-        void add(std::string name, int price);
+        void add(std::string name, double price);
         void buy(int index);
         std::string menu();
         

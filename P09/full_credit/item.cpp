@@ -1,4 +1,6 @@
 #include "item.h"
+#include <iomanip>
+#include <sstream>
 
 // Constructor,, initializes name and price fields item(name,price)
 
@@ -26,8 +28,9 @@ int Item::getPrice()
 }
 
 std::string Item::to_string(){
-    
-    std::string output = name + " ($" + std::to_string(static_cast<double>(price) / 100.0) + ") ";
+    std::stringstream stream;
+    stream << std::fixed << std::setprecision(2) << static_cast<double>(price) / 100.0;
+    std::string output = name + " ($" + stream.str() + ") ";
     return output;
 
 }

@@ -9,8 +9,8 @@ int main()
     Vending_Machine vendingMachine;
 
     // add two item objects
-    vendingMachine.add("Celsius", 3);
-    vendingMachine.add("Water", 2);
+    vendingMachine.add("Celsius", 3.50);
+    vendingMachine.add("Water", 1.99);
     // print menu to console
     std::cout << vendingMachine.menu() << std::endl;
     // buy one of the items
