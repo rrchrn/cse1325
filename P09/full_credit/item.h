@@ -8,6 +8,7 @@ class Item {
         Item(std::string name, int price);
         std::string to_string();
         std::string getName();
+        int getPrice();
         
     private:
         int price;

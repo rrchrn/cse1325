@@ -2,7 +2,7 @@
 
 // Constructor,, initializes name and price fields item(name,price)
 
-Item::Item(std::string name, int price)
+Item::Item(std::string name, int price): name(name), price(price)
 {
      //throw exception in constructor// similar to java
     if (price < 0)
@@ -13,14 +13,21 @@ Item::Item(std::string name, int price)
 
 }
 
-std::string getName(name)
-    {
-        return name;
-    }
+// Getter for the item name
+std::string Item::getName() 
+{
+    return name;
+}
+
+// Getter for the item price
+int Item::getPrice()
+{
+    return price;
+}
 
 std::string Item::to_string(){
     
-    std::string output = name + " ($" + std::to_string(price/100) + ") ";
+    std::string output = name + " ($" + std::to_string(static_cast<double>(price) / 100.0) + ") ";
     return output;
 
 }
