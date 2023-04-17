@@ -15,13 +15,14 @@ import java.awt.Graphics2D;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
-
+import javax.swing.JScrollPane;
 import java.io.File;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import javax.swing.JTextArea;
 
 // import javax.swing.JDialog;          // for custom dialogs (for alternate About dialog)
 import javax.swing.JMenuBar; // row of menu selections
@@ -407,6 +408,8 @@ public class MainWin extends JFrame {
 
     protected void onInsertOrderClick(Store store) {
         Object[] customerList = store.getCustomers();
+        Order order = null;
+        int result;
 
         Customer[] customerArray = new Customer[customerList.length];
         for (int i = 0; i < customerList.length; i++) {
@@ -416,23 +419,50 @@ public class MainWin extends JFrame {
         if (customerList.length == 0) {
             onInsertCustomerClick(store);
 
+            customerList = store.getCustomers();
+
             if (customerList.length == 0) {
                 return;
             }
+            order = new Order((Customer) customerArray[0]);
         }
         if (customerList.length == 1) {
             // use user without asking?? how to do this??
             // customerList[0]?
-            Order order = new Order((Customer) customerArray[0]);
+            customerList = store.getCustomers();
+            order = new Order((Customer) customerArray[0]);
 
-        } else if (customerList.length >= 2) {
+        }
+        if (customerList.length >= 2) {
             JLabel label = new JLabel("Order for which Customer?");
             JComboBox<Customer> customerBox = new JComboBox<>(customerArray);
-            int result = JOptionPane.showConfirmDialog(this, new Object[] { label, customerBox },
+
+            result = JOptionPane.showConfirmDialog(this, new Object[] { label, customerBox },
                     "Select Customer", JOptionPane.OK_CANCEL_OPTION);
+
             if (result == JOptionPane.OK_OPTION) {
                 Customer selectedCustomer = (Customer) customerBox.getSelectedItem();
-                Order order = new Order(selectedCustomer);
+                order = new Order(selectedCustomer);
+            }
+
+        } else {
+            return;
+        }
+
+        while (true) {
+            // create a list of available computer products
+            Object[] computerList = store.getComputers();
+
+            JComboBox computerBox = new JComboBox(computerList);
+
+            // show the current order
+            JTextArea orderTextArea = new JTextArea(order.toString());
+            JScrollPane scrollPane = new JScrollPane(orderTextArea);
+            Object[] message = { "Add a computer to the order:", computerBox, "Current order:", scrollPane };
+            result = JOptionPane.showConfirmDialog(this, message, "Add Computer", JOptionPane.OK_CANCEL_OPTION);
+
+            if (result == JOptionPane.CANCEL_OPTION) {
+                break;
             }
         }
 
