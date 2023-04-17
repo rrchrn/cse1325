@@ -4,6 +4,7 @@ import store.Computer;
 import store.Customer;
 import store.Store;
 import store.Option;
+import store.Order;
 import javax.swing.JFrame; // for main window
 import javax.swing.JOptionPane; // for standard dialogs
 import javax.swing.JPanel;
@@ -11,7 +12,6 @@ import javax.swing.JTextField;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -44,6 +44,8 @@ import javax.imageio.ImageIO; // loads an image from a file
 import javax.management.openmbean.OpenDataException;
 
 import java.util.Arrays;
+import java.util.List;
+
 import java.awt.BorderLayout; // layout manager for main window
 import java.awt.FlowLayout; // layout manager for About dialog
 
@@ -406,8 +408,14 @@ public class MainWin extends JFrame {
     protected void onInsertOrderClick(Store store) {
         Object[] customerList = store.getCustomers();
 
+        Customer[] customerArray = new Customer[customerList.length];
+        for (int i = 0; i < customerList.length; i++) {
+            customerArray[i] = (Customer) customerList[i];
+        }
+
         if (customerList.length == 0) {
             onInsertCustomerClick(store);
+
             if (customerList.length == 0) {
                 return;
             }
@@ -415,10 +423,17 @@ public class MainWin extends JFrame {
         if (customerList.length == 1) {
             // use user without asking?? how to do this??
             // customerList[0]?
-            Order order = new Order((Customer) customerList[0]);
+            Order order = new Order((Customer) customerArray[0]);
 
-        } else {
-
+        } else if (customerList.length >= 2) {
+            JLabel label = new JLabel("Order for which Customer?");
+            JComboBox<Customer> customerBox = new JComboBox<>(customerArray);
+            int result = JOptionPane.showConfirmDialog(this, new Object[] { label, customerBox },
+                    "Select Customer", JOptionPane.OK_CANCEL_OPTION);
+            if (result == JOptionPane.OK_OPTION) {
+                Customer selectedCustomer = (Customer) customerBox.getSelectedItem();
+                Order order = new Order(selectedCustomer);
+            }
         }
 
     }
