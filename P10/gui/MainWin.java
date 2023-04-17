@@ -408,12 +408,12 @@ public class MainWin extends JFrame {
             onInsertCustomerClick(store);
         }
         if ((store.getCustomers()).length == 1) {
-            Customer[] customer = store.getCustomers();
-            Customer newCustomer = customer[0];
+            Object[] customer = store.getCustomers();
+            Object newCustomer = customer[0];
             // use the first one
         } else if ((store.getCustomers()).length >= 2) {
             // display dialog with JLabel "Order for which customer?" Ok and cancel button
-            JComboBox<Customer> customerComboBox = new JComboBox<>(customers);
+            JComboBox<Customer> customerComboBox = new JComboBox<Customer>((Customer[]) store.getCustomers());
             JPanel panel = new JPanel();
             panel.add(new JLabel("Order for which customer?"));
             panel.add(customerComboBox);
