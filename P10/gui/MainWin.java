@@ -404,30 +404,21 @@ public class MainWin extends JFrame {
     }
 
     protected void onInsertOrderClick(Store store) {
-        Object[] customers = store.getCustomers()
-        if ((customers.length == 0) {
-            onInsertCustomerClick(store);
-        }
-        if (customers.length == 1) {
-            Object[] customer = store.getCustomers();
-            Object newCustomer = customer[0];
-            // use the first one
-        } else if (customers.length >= 2) {
-            // display dialog with JLabel "Order for which customer?" Ok and cancel button
-            JComboBox<Customer> customerComboBox = new JComboBox<Customer>((Customer[]) customers);
-            JPanel panel = new JPanel();
-            panel.add(new JLabel("Order for which customer?"));
-            panel.add(customerComboBox);
-            int result = JOptionPane.showOptionDialog(null, panel, "Select Customer",
-                    JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null,
-                    new String[] { "OK", "Cancel" }, JOptionPane.OK_OPTION);
+        Object[] customerList = store.getCustomers();
 
-            if (result == JOptionPane.OK_OPTION) {
-                Customer customer = (Customer) customerComboBox.getSelectedItem();
-                // use the selected customer
-            } else {
+        if (customerList.length == 0) {
+            onInsertCustomerClick(store);
+            if (customerList.length == 0) {
                 return;
-            } 
+            }
+        }
+        if (customerList.length == 1) {
+            // use user without asking?? how to do this??
+            // customerList[0]?
+            Order order = new Order((Customer) customerList[0]);
+
+        } else {
+
         }
 
     }
