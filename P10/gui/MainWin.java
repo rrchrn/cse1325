@@ -55,7 +55,7 @@ public class MainWin extends JFrame {
     public MainWin(String title) {
         super(title);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(900, 500);
+        setSize(1000, 500);
         Store store = new Store("Store");
 
         // /////// ////////////////////////////////////////////////////////////////
@@ -404,8 +404,29 @@ public class MainWin extends JFrame {
     }
 
     protected void onInsertOrderClick(Store store) {
-        if (customers.isEmpty()) {
+        if ((store.getCustomers()).length == 0) {
             onInsertCustomerClick(store);
+        }
+        if ((store.getCustomers()).length == 1) {
+            Customer[] customer = store.getCustomers();
+            Customer newCustomer = customer[0];
+            // use the first one
+        } else if ((store.getCustomers()).length >= 2) {
+            // display dialog with JLabel "Order for which customer?" Ok and cancel button
+            JComboBox<Customer> customerComboBox = new JComboBox<>(customers);
+            JPanel panel = new JPanel();
+            panel.add(new JLabel("Order for which customer?"));
+            panel.add(customerComboBox);
+            int result = JOptionPane.showOptionDialog(null, panel, "Select Customer",
+                    JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null,
+                    new String[] { "OK", "Cancel" }, JOptionPane.OK_OPTION);
+
+            if (result == JOptionPane.OK_OPTION) {
+                Customer customer = (Customer) customerComboBox.getSelectedItem();
+                // use the selected customer
+            } else {
+                return;
+            }
         }
 
     }
