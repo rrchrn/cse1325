@@ -410,6 +410,7 @@ public class MainWin extends JFrame {
         Object[] customerList = store.getCustomers();
         Order order = null;
         int result;
+        int instanced = 0;
 
         Customer[] customerArray = new Customer[customerList.length];
         for (int i = 0; i < customerList.length; i++) {
@@ -424,13 +425,21 @@ public class MainWin extends JFrame {
             if (customerList.length == 0) {
                 return;
             }
+
+            customerArray = new Customer[customerList.length];
+            for (int i = 0; i < customerList.length; i++) {
+                customerArray[i] = (Customer) customerList[i];
+            }
+
             order = new Order((Customer) customerArray[0]);
+            instanced = 1;
         }
         if (customerList.length == 1) {
             // use user without asking?? how to do this??
             // customerList[0]?
             customerList = store.getCustomers();
             order = new Order((Customer) customerArray[0]);
+            instanced = 1;
 
         }
         if (customerList.length >= 2) {
@@ -443,17 +452,15 @@ public class MainWin extends JFrame {
             if (result == JOptionPane.OK_OPTION) {
                 Customer selectedCustomer = (Customer) customerBox.getSelectedItem();
                 order = new Order(selectedCustomer);
+                instanced = 1;
             }
 
-        } else {
-            return;
         }
-
-        while (true) {
+        while (instanced == 1) {
             // create a list of available computer products
             Object[] computerList = store.getComputers();
 
-            JComboBox computerBox = new JComboBox(computerList);
+            JComboBox<Object> computerBox = new JComboBox(computerList);
 
             // show the current order
             JTextArea orderTextArea = new JTextArea(order.toString());

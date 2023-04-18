@@ -6,6 +6,7 @@
 
   <target name="build" description="Compile source tree java files">
     <javac debug="true" failonerror="true">
+    <compilerarg value="-Xlint:unchecked"/>
       <src path="."/>
     </javac>
   </target>
