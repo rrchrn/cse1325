@@ -452,7 +452,7 @@ public class MainWin extends JFrame {
             if (result == JOptionPane.OK_OPTION) {
                 Customer selectedCustomer = (Customer) customerBox.getSelectedItem();
                 order = new Order(selectedCustomer);
-                instanced = 1;
+                setDirty(true);
             }
 
         }
