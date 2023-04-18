@@ -6,14 +6,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Order {
-    private static long nextOrderNumber = 0;
-    private long orderNumber = nextOrderNumber++;
+    private static double nextOrderNumber = 0;
+    private double orderNumber = nextOrderNumber++;
 
     private Customer customer;
     private ArrayList<Computer> computers = new ArrayList<Computer>();
 
     public void save(BufferedWriter bw) throws IOException {
-        bw.write(Long.toString(orderNumber) + '\n');
+        bw.write(Double.toString(orderNumber) + '\n');
         customer.save(bw);
         bw.write(Integer.toString(computers.size()) + '\n');
         for (Computer comp : computers) {

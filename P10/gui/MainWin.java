@@ -356,7 +356,7 @@ public class MainWin extends JFrame {
         // Need to put add button so if dialogBox == add then add and then do again
         if (dialogBox == JOptionPane.YES_OPTION) {
             try {
-                long costLong = (long) (Double.parseDouble(cost.getText()) * 100.00);
+                double costLong = (Double.parseDouble(cost.getText()) * 100.00);
                 Option newOption = new Option(optionName.getText(), costLong);
 
                 store.add(newOption);
@@ -452,21 +452,30 @@ public class MainWin extends JFrame {
             if (result == JOptionPane.OK_OPTION) {
                 Customer selectedCustomer = (Customer) customerBox.getSelectedItem();
                 order = new Order(selectedCustomer);
-                setDirty(true);
             }
 
         }
-        while (instanced == 1) {
+        while (true) {
             // create a list of available computer products
             Object[] computerList = store.getComputers();
 
-            JComboBox<Object> computerBox = new JComboBox(computerList);
+            JComboBox<Object> computerBox = new JComboBox<>(computerList);
 
             // show the current order
             JTextArea orderTextArea = new JTextArea(order.toString());
             JScrollPane scrollPane = new JScrollPane(orderTextArea);
             Object[] message = { "Add a computer to the order:", computerBox, "Current order:", scrollPane };
             result = JOptionPane.showConfirmDialog(this, message, "Add Computer", JOptionPane.OK_CANCEL_OPTION);
+
+            if (result == JOptionPane.OK_OPTION) {
+                // add computer to order?
+                // get the selected computer from the combo box
+                Computer selectedComputer = (Computer) computerBox.getSelectedItem();
+                // add the selected computer to the order
+                order.addComputer(selectedComputer);
+                store.add(order);
+                break;
+            }
 
             if (result == JOptionPane.CANCEL_OPTION) {
                 break;

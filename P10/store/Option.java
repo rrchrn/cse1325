@@ -6,9 +6,9 @@ import java.io.IOException;
 
 public class Option {
     protected String name;
-    protected long cost;
+    protected double cost;
 
-    public Option(String name, long cost) {
+    public Option(String name, double cost) {
         this.name = name;
         this.cost = cost;
 
@@ -39,7 +39,7 @@ public class Option {
         return name;
     }
 
-    public long getCost() {
+    public double getCost() {
         return cost;
     }
 
