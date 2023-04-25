@@ -38,11 +38,12 @@ sys	0m0.252s
 
 
 YOUR Timing:
- Threads 1:
-( java ThreadsOfSudoku $i puzzle.txt 14_zeros > temp.txt; )  128.81s user 0.98s system 100% cpu 2:09.39 total
+
+Threads 1:
+( java ThreadsOfSudoku $i puzzle.txt 14_zeros > temp.txt; )  122.08s user 1.05s system 100% cpu 2:02.84 total
 
  Threads 2:
-( java ThreadsOfSudoku $i puzzle.txt 14_zeros > temp.txt; )  116.60s user 0.68s system 100% cpu 1:56.97 total
+( java ThreadsOfSudoku $i puzzle.txt 14_zeros > temp.txt; )  128.19s user 0.86s system 195% cpu 1:05.97 total
 
 
 
@@ -63,7 +64,7 @@ java ThreadsOfSudoku 3 puzzle.txt 14_zeros  123.74s user 0.71s system 100% cpu 2
 QUESTION 4: Does adding more threads increase the "system load", or is it constant regardless of the number of threads?  Why?
 
 
-- Adding more threads does not change the system load. It stays the same throughout.
+- Adding more threads does change the system load  because each thread requires additional resources for CPU.
 
 
 BONUS
