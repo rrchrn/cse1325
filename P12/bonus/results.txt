@@ -13,7 +13,7 @@ FULL CREDIT
 
 QUESTION 1: Which puzzle did you use as ThreadsOfSudoku's parameter to achieve a 30+ second runtime (using "real"):
 
-- 16_zeros
+- 14_zeros
 
 QUESTION 2: Provide the full ``time`` output for your program, with 1 to 16 threads. It may prove interesting to screenshot your system monitor while these run. You may be able to run all of these with a single bash command if you like (replace 14_zeros with your puzzle from QUESTION 1): 
 
@@ -70,15 +70,16 @@ QUESTION 5: Time your thread pool version of ThreadsOfSudoku as you did for the 
 
 YOUR Timing:
 
-
+java ThreadsOfSudoku 11 puzzle.txt 14_zeros  153.40s user 1.67s system 827% cpu 18.748 total
 
 
 
 
 QUESTION 6: Is a thread pool faster, slower, or roughly equivalent in performance? 
 
-
+It is faster in performance, but sometimes slower.
 
 QUESTION 7: Compare the full credit and bonus solution code. Which do you believe is more supportable over a long lifetime of evolving hardware and environments?
 
 
+he bonus solution code is more supportable over a long lifetime of evolving hardware and environments because it uses a more scalable and flexible approach to dividing up the work among threads.

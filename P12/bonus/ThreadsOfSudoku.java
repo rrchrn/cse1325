@@ -5,6 +5,8 @@ import java.util.Scanner;
 import java.io.File;
 
 public class ThreadsOfSudoku {
+    private static int nextIndex = 0;
+
     public static void main(String[] args) {
         try {
             if (args.length < 2) {
@@ -31,34 +33,10 @@ public class ThreadsOfSudoku {
             // Create list of threads
             ArrayList<Thread> threads = new ArrayList<>();
 
-            // split sub-puzzles into numThreads groups
-            int indices = 81;
-            int subIndices = indices / numThreads;
-            int subIndicesRemainder = indices % numThreads;
-
-            ArrayList<Integer> ranges = new ArrayList<>();
-
-            int curr = 0;
-            for (int i = 0; i < numThreads; i++, subIndicesRemainder--) {
-                ranges.add(curr);
-                curr += subIndices;
-                if (subIndicesRemainder > 0) {
-                    curr += 1;
-                    subIndicesRemainder--;
-                }
-                if (indices >= curr) {
-                    ranges.add(curr);
-                } else {
-                    ranges.add(81);
-                }
-            }
-
             // create number threads based on arguments
             for (int i = 0; i < numThreads; i++) {
                 final int threadId = i + 1;
-                final int startIndex = ranges.get(i * 2);
-                final int endIndex = ranges.get(i * 2 + 1);
-                threads.add(new Thread(() -> solveSuds(suds, startIndex, endIndex, threadId)));
+                threads.add(new Thread(() -> solveSuds(suds, threadId)));
             }
 
             // Start the threads
@@ -81,16 +59,23 @@ public class ThreadsOfSudoku {
         }
     }
 
-    private static void solveSuds(Sudoku[] suds, int first, int last, int id) {
-        System.out.println("Thread " + id + " will solve " + first + " to " + last);
-        for (int i = first; i < last; ++i) {
-            System.out.println("Thread " + id + " solving " + i);
-            if (suds[i].solve()) {
+    private static void solveSuds(Sudoku[] suds, int id) {
+        int index;
+        while ((index = getSudIndex()) != -1) {
+            System.out.println("Thread " + id + " solving " + index);
+            if (suds[index].solve()) {
                 synchronized (solutions) {
-                    solutions.add(suds[i]);
+                    solutions.add(suds[index]);
                 }
             }
         }
+    }
+
+    private static synchronized int getSudIndex() {
+        if (nextIndex >= 80) {
+            return -1;
+        }
+        return nextIndex++;
     }
 
     // END WORK HERE
