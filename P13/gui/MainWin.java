@@ -227,6 +227,10 @@ public class MainWin extends JFrame {
         JScrollPane scrollPane = new JScrollPane(display);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
+        // status
+        statusBar = new JLabel("Ready");
+        getContentPane().add(statusBar, BorderLayout.PAGE_END);
+
         // add scroll pane to the center
         getContentPane().add(scrollPane, BorderLayout.CENTER);
 
@@ -235,6 +239,10 @@ public class MainWin extends JFrame {
 
         // Start a new store
         onNewClick(DEFAULT_STORE_NAME);
+    }
+
+    private void setStatus(String text) {
+        statusBar.setText(text);
     }
 
     // Listeners
@@ -261,7 +269,7 @@ public class MainWin extends JFrame {
         FileFilter elsaFiles = new FileNameExtensionFilter("ELSA files", EXTENSION);
         fc.addChoosableFileFilter(elsaFiles); // Add "ELSA file" filter
         fc.setFileFilter(elsaFiles); // Show ELSA files only by default
-
+        setStatus("Opening...");
         int result = fc.showOpenDialog(this); // Run dialog, return button clicked
         if (result == JFileChooser.APPROVE_OPTION) { // Also CANCEL_OPTION and ERROR_OPTION
             filename = fc.getSelectedFile(); // Obtain the selected File object
@@ -285,6 +293,7 @@ public class MainWin extends JFrame {
     }
 
     protected void onSaveClick() {
+        setStatus("Saving...");
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(filename))) {
             bw.write(MAGIC_COOKIE + '\n');
             bw.write(FILE_VERSION + '\n');
@@ -295,9 +304,13 @@ public class MainWin extends JFrame {
                     "Failed", JOptionPane.ERROR_MESSAGE);
         }
         setDirty(false);
+
+        setStatus("Saved!");
+
     }
 
     protected void onSaveAsClick() {
+        setStatus("Saving...");
         final JFileChooser fc = new JFileChooser(filename); // Create a file chooser dialog
         FileFilter elsaFiles = new FileNameExtensionFilter("ELSA files", EXTENSION);
         fc.addChoosableFileFilter(elsaFiles); // Add "ELSA file" filter
@@ -310,9 +323,12 @@ public class MainWin extends JFrame {
                 filename = new File(filename.getAbsolutePath() + "." + EXTENSION);
             onSaveClick(); // Delegate to Save method
         }
+
+        setStatus("Saved!");
     }
 
     protected void onQuitClick() {
+        setStatus("Quitting..");
         System.exit(0);
     } // Exit the program
 
@@ -353,6 +369,7 @@ public class MainWin extends JFrame {
     }
 
     protected void onInsertCustomerClick() {
+        setStatus("Inserting Customer...");
         try {
             String[] result = UnifiedDialog(new String[] { "Name", "Email" },
                     "New Customer", "gui/resources/add_customer.png");
@@ -361,13 +378,16 @@ public class MainWin extends JFrame {
                 store.add(new Customer(result[0], result[1]));
                 setDirty(true);
                 onViewClick(Record.CUSTOMER);
+                setStatus("Customer Inserted!");
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e, "Customer Not Created", JOptionPane.ERROR_MESSAGE);
+            setStatus("Error");
         }
     }
 
     protected void onInsertOptionClick() {
+        setStatus("Inserting Option...");
         try {
             String[] result = UnifiedDialog(new String[] { "Name", "Cost" },
                     "New Option", "gui/resources/add_option.png");
@@ -376,14 +396,17 @@ public class MainWin extends JFrame {
                 store.add(new Option(result[0], (long) (100.0 * Double.parseDouble(result[1]))));
                 setDirty(true);
                 onViewClick(Record.OPTION);
+                setStatus("Option Inserted!");
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e, "Option Not Created", JOptionPane.ERROR_MESSAGE);
+            setStatus("Error");
         }
     }
 
     protected void onInsertComputerClick() {
         // Load the icon if available
+        setStatus("Inserting Computer..");
         ImageIcon icon = null;
         try {
             icon = new ImageIcon("gui/resources/add_computer.png");
@@ -411,6 +434,7 @@ public class MainWin extends JFrame {
                 store.add(c);
                 onViewClick(Record.COMPUTER);
                 setDirty(true);
+                setStatus("Computer Added!");
             }
         } catch (NullPointerException e) {
         } catch (Exception e) {
@@ -420,6 +444,7 @@ public class MainWin extends JFrame {
 
     protected void onInsertOrderClick() {
         // Load the image if available
+        setStatus("Inserting Order...");
         ImageIcon icon = null;
         try {
             icon = new ImageIcon("gui/resources/add_order.png");
@@ -478,8 +503,10 @@ public class MainWin extends JFrame {
     }
 
     protected void onViewClick(Record record) {
+        setStatus("Viewing...");
         String header = null;
         Object[] list = null;
+
         if (record == Record.CUSTOMER) {
             header = "Our Beloved Customers";
             list = store.customers();
@@ -527,6 +554,8 @@ public class MainWin extends JFrame {
         JLabel artists = new JLabel("<html>"
                 + "<br/><p>Copyright 2017-2023 by George F. Rice</p>"
                 + "<p>Licensed under Gnu GPL 3.0</p><br/>"
+
+                + "<br/><p>Bonus Parts by Rachael Rocha :)</p>"
 
                 + "<br/><p>Add Customer icon based on work by Dreamstate per the Flaticon License</p>"
                 + "<p><font size=-2>https://www.flaticon.com/free-icon/user_3114957</font></p>"
@@ -590,6 +619,7 @@ public class MainWin extends JFrame {
 
     private Store store; // The current Elsa store
     private JLabel display; // Display page of data
+    private JLabel statusBar;
 
     private File filename;
 
