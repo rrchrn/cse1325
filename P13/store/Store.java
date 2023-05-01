@@ -2,6 +2,9 @@ package store;
 
 import java.util.ArrayList;
 import java.util.Set;
+
+import gui.MainWin.Record;
+
 import java.util.HashSet;
 
 import java.io.BufferedReader;
@@ -111,6 +114,21 @@ public class Store {
         return this.orders.toArray();
     }
 
+    public List<Record> list(Record recordType) {
+        switch (recordType) {
+            case CUSTOMER:
+                return new ArrayList<Record>(customers);
+            case OPTION:
+                return new ArrayList<Record>(options);
+            case COMPUTER:
+                return new ArrayList<Record>(computers);
+            case ORDER:
+                return new ArrayList<Record>(orders);
+            default:
+                return new ArrayList<Record>();
+        }
+    }
+
     // ///////////////////////////////////////////////////////////
     // Fields
 
@@ -119,4 +137,5 @@ public class Store {
     private ArrayList<Option> options = new ArrayList<>();
     private ArrayList<Computer> computers = new ArrayList<>();
     private ArrayList<Order> orders = new ArrayList<>();
+
 }

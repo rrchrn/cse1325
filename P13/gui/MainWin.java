@@ -6,6 +6,8 @@ import store.Option;
 import store.Computer;
 import store.Order;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JFrame; // for main window
 import javax.swing.JOptionPane; // for standard dialogs
 // import javax.swing.JDialog;          // for custom dialogs (for alternate About dialog)
@@ -24,7 +26,7 @@ import javax.swing.ImageIcon; // holds a custom icon
 import javax.swing.JComboBox; // for selecting from lists
 import javax.swing.SwingConstants; // useful values for Swing method calls
 import javax.swing.JScrollPane;
-
+import javax.swing.JTextArea;
 import javax.imageio.ImageIO; // loads an image from a file
 
 import javax.swing.JFileChooser; // File selection dialog
@@ -43,6 +45,7 @@ import java.awt.FlowLayout; // layout manager for About dialog
 
 import java.awt.Color; // the color of widgets, text, or borders
 import java.awt.Font; // rich text in a JLabel or similar widget
+import java.awt.List;
 import java.awt.image.BufferedImage; // holds an image loaded from a file
 
 import java.util.Arrays; // for setAll
@@ -88,6 +91,7 @@ public class MainWin extends JFrame {
         JMenuItem vOption = new JMenuItem("Options");
         JMenuItem vComputer = new JMenuItem("Computers");
         JMenuItem vOrder = new JMenuItem("Orders");
+        JMenuItem vDetail = new JMenuItem("Details");
 
         JMenu help = new JMenu("Help");
         JMenuItem about = new JMenuItem("About");
@@ -107,6 +111,7 @@ public class MainWin extends JFrame {
         vOption.addActionListener(event -> onViewClick(Record.OPTION));
         vComputer.addActionListener(event -> onViewClick(Record.COMPUTER));
         vOrder.addActionListener(event -> onViewClick(Record.ORDER));
+        vDetail.addActionListener(event -> onViewDetailsClick());
 
         about.addActionListener(event -> onAboutClick());
 
@@ -332,7 +337,8 @@ public class MainWin extends JFrame {
         System.exit(0);
     } // Exit the program
 
-    protected String[] UnifiedDialog(String[] fields, String title, String iconFilename) {
+    protected String[] UnifiedDialog(String[] fields, String title, String iconFilename, boolean includeImageChooser) {
+        // Returning null indicates Cancel or X was clicked
         // Returning null indicates Cancel or X was clicked
         String[] result = null;
 
@@ -344,13 +350,34 @@ public class MainWin extends JFrame {
         } catch (Exception e) {
         }
 
-        // Widgets will include a label and JTextField for each field
+        // Widgets will include a label and JTextField or JButton for each field
         Object[] widgets = new Object[2 * fields.length];
 
         // Create the widget pairs
         for (int i = 0; i < fields.length; ++i) {
             widgets[2 * i] = new JLabel("<html><br>" + fields[i] + "</html>");
-            widgets[2 * i + 1] = new JTextField();
+
+            if (fields[i].equals("Image Filename")) {
+                // Add a JFileChooser button for selecting an image file
+                final int finalI = i; // Define final variable to use in ActionListener
+                JButton fileChooserButton = new JButton("Select Image File");
+                fileChooserButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        JFileChooser fileChooser = new JFileChooser();
+                        fileChooser.setDialogTitle("Select Image File");
+                        int result = fileChooser.showOpenDialog(MainWin.this);
+                        if (result == JFileChooser.APPROVE_OPTION) {
+                            File selectedFile = fileChooser.getSelectedFile();
+                            ((JTextField) widgets[2 * finalI + 1]).setText(selectedFile.getAbsolutePath());
+                        }
+                    }
+                });
+                widgets[2 * i + 1] = fileChooserButton;
+            } else {
+                // Add a regular JTextField for all other fields
+                widgets[2 * i + 1] = new JTextField();
+            }
         }
 
         // Show the dialog
@@ -371,11 +398,11 @@ public class MainWin extends JFrame {
     protected void onInsertCustomerClick() {
         setStatus("Inserting Customer...");
         try {
-            String[] result = UnifiedDialog(new String[] { "Name", "Email" },
-                    "New Customer", "gui/resources/add_customer.png");
+            String[] result = UnifiedDialog(new String[] { "Name", "Email", "Image Filename" },
+                    "New Customer", "gui/resources/add_customer.png", true);
 
             if (result != null) {
-                store.add(new Customer(result[0], result[1]));
+                store.add(new Customer(result[0], result[1], result[2]));
                 setDirty(true);
                 onViewClick(Record.CUSTOMER);
                 setStatus("Customer Inserted!");
@@ -389,11 +416,11 @@ public class MainWin extends JFrame {
     protected void onInsertOptionClick() {
         setStatus("Inserting Option...");
         try {
-            String[] result = UnifiedDialog(new String[] { "Name", "Cost" },
-                    "New Option", "gui/resources/add_option.png");
+            String[] result = UnifiedDialog(new String[] { "Name", "Cost", "Image Filename" },
+                    "New Option", "gui/resources/add_option.png", true);
 
             if (result != null) {
-                store.add(new Option(result[0], (long) (100.0 * Double.parseDouble(result[1]))));
+                store.add(new Option(result[0], (long) (100.0 * Double.parseDouble(result[1])), result[2]));
                 setDirty(true);
                 onViewClick(Record.OPTION);
                 setStatus("Option Inserted!");
@@ -414,11 +441,11 @@ public class MainWin extends JFrame {
         }
         try {
             String[] result = UnifiedDialog(new String[] { "Computer Name", "Computer Model" },
-                    "New Computer", "gui/resources/add_computer.png");
+                    "New Computer", "gui/resources/add_computer.png", true);
             if (result == null)
                 return;
 
-            Computer c = new Computer(result[0], result[1]);
+            Computer c = new Computer(result[0], result[1], result[2]);
 
             JComboBox<Object> cb = new JComboBox<>(store.options());
             int optionsAdded = 0; // Don't add computers with no options
@@ -531,6 +558,29 @@ public class MainWin extends JFrame {
                     .replaceAll("\n", "<br/>") + "</li>\n");
         sb.append("</ol></html>");
         display.setText(sb.toString());
+    }
+
+    private void onViewDetailsClick() {
+        // Display a dialog box to select the record type
+        String[] recordTypes = { "Customer", "Option", "Computer" };
+        String selectedRecordType = (String) JOptionPane.showInputDialog(this,
+                "Select record type:", "View Details", JOptionPane.PLAIN_MESSAGE,
+                null, recordTypes, recordTypes[0]);
+
+        // Get the list of records of the selected type from the store
+        Record recordType = Record.valueOf(selectedRecordType.toUpperCase());
+        Object[] records = store.list(recordType);
+
+        // Display a dialog box to select the record
+        Object selectedRecord = JOptionPane.showInputDialog(this,
+                "Select record:", "View Details", JOptionPane.PLAIN_MESSAGE,
+                null, records, records[0]);
+
+        // Display the information about the selected record in the MainWin
+        JTextArea detailsArea = new JTextArea(selectedRecord.toString());
+        JScrollPane detailsScrollPane = new JScrollPane(detailsArea);
+        JOptionPane.showMessageDialog(this, detailsScrollPane,
+                "View Details", JOptionPane.PLAIN_MESSAGE);
     }
 
     protected void onAboutClick() { // Display About dialog
