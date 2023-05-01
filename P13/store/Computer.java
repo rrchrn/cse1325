@@ -10,15 +10,18 @@ public class Computer {
     private String model;
     private ArrayList<Option> options = new ArrayList<>();
     private boolean deprecated = false; // new field
+    private String imageFilename;
 
-    public Computer(String name, String model) {
+    public Computer(String name, String model, String imageFilename) {
         this.name = name;
         this.model = model;
+        this.imageFilename = imageFilename;
     }
 
     public Computer(BufferedReader br) throws IOException {
         this.name = br.readLine();
         this.model = br.readLine();
+        this.imageFilename = br.readLine();
         int numOptions = Integer.parseInt(br.readLine());
         while (numOptions-- > 0)
             options.add(new Option(br));
@@ -27,9 +30,11 @@ public class Computer {
     public void save(BufferedWriter bw) throws IOException {
         bw.write(name + '\n');
         bw.write(model + '\n');
+        bw.write(imageFilename + '\n');
         bw.write("" + options.size() + '\n');
         for (Option option : options)
             option.save(bw);
+
     }
 
     public void addOption(Option option) {
@@ -41,6 +46,10 @@ public class Computer {
         for (Option o : options)
             cost += o.cost();
         return cost;
+    }
+
+    public String getImageFilename() {
+        return imageFilename;
     }
 
     @Override
