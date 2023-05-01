@@ -353,6 +353,11 @@ public class MainWin extends JFrame {
         // Widgets will include a label and JTextField or JButton for each field
         Object[] widgets = new Object[2 * fields.length];
 
+        // Initialize all widgets to default value
+        for (int i = 0; i < widgets.length; i++) {
+            widgets[i] = new JLabel("");
+        }
+
         // Create the widget pairs
         for (int i = 0; i < fields.length; ++i) {
             widgets[2 * i] = new JLabel("<html><br>" + fields[i] + "</html>");
@@ -369,7 +374,12 @@ public class MainWin extends JFrame {
                         int result = fileChooser.showOpenDialog(MainWin.this);
                         if (result == JFileChooser.APPROVE_OPTION) {
                             File selectedFile = fileChooser.getSelectedFile();
-                            ((JTextField) widgets[2 * finalI + 1]).setText(selectedFile.getAbsolutePath());
+                            for (int j = 0; j < widgets.length; j += 2) {
+                                if (j == 2 * finalI + 1) {
+                                    ((JTextField) widgets[j + 1]).setText(selectedFile.getAbsolutePath());
+                                    break;
+                                }
+                            }
                         }
                     }
                 });
@@ -388,8 +398,13 @@ public class MainWin extends JFrame {
         if (button == JOptionPane.OK_OPTION) {
             result = new String[fields.length];
             for (int i = 0; i < fields.length; ++i) {
-                JTextField textField = (JTextField) widgets[2 * i + 1];
-                result[i] = textField.getText();
+                for (int j = 0; j < widgets.length; j += 2) {
+                    if (j == 2 * i + 1) {
+                        JTextField textField = (JTextField) widgets[j];
+                        result[i] = textField.getText();
+                        break;
+                    }
+                }
             }
         }
         return result;
