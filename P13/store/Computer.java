@@ -82,4 +82,8 @@ public class Computer {
     public void setDeprecated(boolean deprecated) {
         this.deprecated = deprecated;
     }
+
+    public String getName() {
+        return this.name;
+    }
 }

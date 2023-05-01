@@ -29,6 +29,10 @@ public class Option {
         return this.cost;
     }
 
+    public String getName() {
+        return this.name;
+    }
+
     @Override
     public String toString() {
         long cents = cost % 100;
@@ -56,4 +60,5 @@ public class Option {
     protected String name;
     protected long cost;
     private String imageFilename;
+
 }

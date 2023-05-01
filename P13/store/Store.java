@@ -114,19 +114,56 @@ public class Store {
         return this.orders.toArray();
     }
 
-    public List<Record> list(Record recordType) {
+    /// ????? for record
+    public String getRecordDetails(Record recordType, String recordName) {
         switch (recordType) {
             case CUSTOMER:
-                return new ArrayList<Record>(customers);
+                for (Customer customer : customers) {
+                    if (customer.getName().equals(recordName)) {
+                        return customer.toString();
+                    }
+                }
+                break;
             case OPTION:
-                return new ArrayList<Record>(options);
+                for (Option option : options) {
+                    if (option.getName().equals(recordName)) {
+                        return option.toString();
+                    }
+                }
+                break;
             case COMPUTER:
-                return new ArrayList<Record>(computers);
-            case ORDER:
-                return new ArrayList<Record>(orders);
-            default:
-                return new ArrayList<Record>();
+                for (Computer computer : computers) {
+                    if (computer.getName().equals(recordName)) {
+                        return computer.toString();
+                    }
+                }
+                break;
         }
+        return null;
+    }
+
+    public String[] listNames(Record recordType) {
+        switch (recordType) {
+            case CUSTOMER:
+                String[] customerNames = new String[customers.size()];
+                for (int i = 0; i < customers.size(); i++) {
+                    customerNames[i] = customers.get(i).getName();
+                }
+                return customerNames;
+            case OPTION:
+                String[] optionNames = new String[options.size()];
+                for (int i = 0; i < options.size(); i++) {
+                    optionNames[i] = options.get(i).getName();
+                }
+                return optionNames;
+            case COMPUTER:
+                String[] computerNames = new String[computers.size()];
+                for (int i = 0; i < computers.size(); i++) {
+                    computerNames[i] = computers.get(i).getName();
+                }
+                return computerNames;
+        }
+        return new String[0];
     }
 
     // ///////////////////////////////////////////////////////////

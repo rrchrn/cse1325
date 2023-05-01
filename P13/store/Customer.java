@@ -36,6 +36,10 @@ public class Customer {
         return name + " (" + email + ")";
     }
 
+    public String getName() {
+        return this.name;
+    }
+
     @Override
     public boolean equals(Object o) {
         try {
@@ -53,4 +57,5 @@ public class Customer {
     private String name;
     private String email;
     private String imageFilename;
+
 }

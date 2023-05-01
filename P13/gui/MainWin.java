@@ -561,26 +561,37 @@ public class MainWin extends JFrame {
     }
 
     private void onViewDetailsClick() {
-        // Display a dialog box to select the record type
-        String[] recordTypes = { "Customer", "Option", "Computer" };
-        String selectedRecordType = (String) JOptionPane.showInputDialog(this,
-                "Select record type:", "View Details", JOptionPane.PLAIN_MESSAGE,
-                null, recordTypes, recordTypes[0]);
+        // Show a dialog to select the record type
+        Record recordType = (Record) JOptionPane.showInputDialog(this,
+                "Select the record type to view:", "View Record Details",
+                JOptionPane.PLAIN_MESSAGE, null, Record.values(), Record.CUSTOMER);
 
-        // Get the list of records of the selected type from the store
-        Record recordType = Record.valueOf(selectedRecordType.toUpperCase());
-        Object[] records = store.list(recordType);
+        // Handle cancel button or closing the dialog
+        if (recordType == null) {
+            return;
+        }
 
-        // Display a dialog box to select the record
-        Object selectedRecord = JOptionPane.showInputDialog(this,
-                "Select record:", "View Details", JOptionPane.PLAIN_MESSAGE,
-                null, records, records[0]);
+        // Show a dialog to select the record to view
+        String[] recordNames = store.listNames(recordType);
+        if (recordNames.length == 0) {
+            JOptionPane.showMessageDialog(this, "No " + recordType.toString().toLowerCase() + "s found.",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        String recordName = (String) JOptionPane.showInputDialog(this,
+                "Select the " + recordType.toString().toLowerCase() + " to view:",
+                "View Record Details", JOptionPane.PLAIN_MESSAGE, null,
+                recordNames, recordNames[0]);
 
-        // Display the information about the selected record in the MainWin
-        JTextArea detailsArea = new JTextArea(selectedRecord.toString());
-        JScrollPane detailsScrollPane = new JScrollPane(detailsArea);
-        JOptionPane.showMessageDialog(this, detailsScrollPane,
-                "View Details", JOptionPane.PLAIN_MESSAGE);
+        // Handle cancel button or closing the dialog
+        if (recordName == null) {
+            return;
+        }
+
+        // Get the record details and display them
+        String recordDetails = store.getRecordDetails(recordType, recordName);
+        JOptionPane.showMessageDialog(this, recordDetails, recordType.toString() + " Details",
+                JOptionPane.PLAIN_MESSAGE);
     }
 
     protected void onAboutClick() { // Display About dialog
