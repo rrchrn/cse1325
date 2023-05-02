@@ -16,7 +16,9 @@ public class Option {
     public Option(BufferedReader br) throws IOException {
         this.name = br.readLine();
         this.cost = Long.parseLong(br.readLine());
-        this.imageFilename = br.readLine();
+        String imageFilenameLine = br.readLine();
+        this.imageFilename = (imageFilenameLine != null && !imageFilenameLine.isBlank()) ? imageFilenameLine.trim()
+                : null;
     }
 
     public void save(BufferedWriter bw) throws IOException {

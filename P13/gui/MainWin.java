@@ -337,8 +337,9 @@ public class MainWin extends JFrame {
         System.exit(0);
     } // Exit the program
 
+    /////////////// UNIFIED DIALOG //////////
+
     protected String[] UnifiedDialog(String[] fields, String title, String iconFilename, boolean includeImageChooser) {
-        // Returning null indicates Cancel or X was clicked
         // Returning null indicates Cancel or X was clicked
         String[] result = null;
 
@@ -353,37 +354,31 @@ public class MainWin extends JFrame {
         // Widgets will include a label and JTextField or JButton for each field
         Object[] widgets = new Object[2 * fields.length];
 
-        // Initialize all widgets to default value
-        for (int i = 0; i < widgets.length; i++) {
-            widgets[i] = new JLabel("");
-        }
-
         // Create the widget pairs
+        int widgetsIndex = 0; // initialize the index for widgets array
         for (int i = 0; i < fields.length; ++i) {
             widgets[2 * i] = new JLabel("<html><br>" + fields[i] + "</html>");
 
-            if (fields[i].equals("Image Filename")) {
+            if (fields[i].equals("Image Filename") && includeImageChooser) {
                 // Add a JFileChooser button for selecting an image file
-                final int finalI = i; // Define final variable to use in ActionListener
                 JButton fileChooserButton = new JButton("Select Image File");
+                JTextField filenameField = new JTextField(); // create a new JTextField for the filename
+                final int finalI = i; // Define final variable to use in ActionListener
                 fileChooserButton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         JFileChooser fileChooser = new JFileChooser();
                         fileChooser.setDialogTitle("Select Image File");
-                        int result = fileChooser.showOpenDialog(MainWin.this);
+                        int result = fileChooser.showOpenDialog(null); // changed MainWin.this to null here
                         if (result == JFileChooser.APPROVE_OPTION) {
                             File selectedFile = fileChooser.getSelectedFile();
-                            for (int j = 0; j < widgets.length; j += 2) {
-                                if (j == 2 * finalI + 1) {
-                                    ((JTextField) widgets[j + 1]).setText(selectedFile.getAbsolutePath());
-                                    break;
-                                }
-                            }
+                            String selectedFilePath = selectedFile.getAbsolutePath(); // store the selected file
+                            filenameField.setText(selectedFilePath);
                         }
                     }
                 });
                 widgets[2 * i + 1] = fileChooserButton;
+                widgets[2 * i + 1] = filenameField; // add the filenameField to the next position
             } else {
                 // Add a regular JTextField for all other fields
                 widgets[2 * i + 1] = new JTextField();
@@ -398,12 +393,12 @@ public class MainWin extends JFrame {
         if (button == JOptionPane.OK_OPTION) {
             result = new String[fields.length];
             for (int i = 0; i < fields.length; ++i) {
-                for (int j = 0; j < widgets.length; j += 2) {
-                    if (j == 2 * i + 1) {
-                        JTextField textField = (JTextField) widgets[j];
-                        result[i] = textField.getText();
-                        break;
-                    }
+                if (fields[i].equals("Image Filename") && includeImageChooser) {
+                    JTextField textField = (JTextField) widgets[2 * i + 2];
+                    result[i] = textField.getText();
+                } else {
+                    JTextField textField = (JTextField) widgets[2 * i + 1];
+                    result[i] = textField.getText();
                 }
             }
         }
@@ -435,6 +430,7 @@ public class MainWin extends JFrame {
                     "New Option", "gui/resources/add_option.png", true);
 
             if (result != null) {
+
                 store.add(new Option(result[0], (long) (100.0 * Double.parseDouble(result[1])), result[2]));
                 setDirty(true);
                 onViewClick(Record.OPTION);
