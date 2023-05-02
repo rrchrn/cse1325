@@ -5,6 +5,7 @@ import store.Customer;
 import store.Option;
 import store.Computer;
 import store.Order;
+import java.util.List;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -45,9 +46,8 @@ import java.awt.FlowLayout; // layout manager for About dialog
 
 import java.awt.Color; // the color of widgets, text, or borders
 import java.awt.Font; // rich text in a JLabel or similar widget
-import java.awt.List;
 import java.awt.image.BufferedImage; // holds an image loaded from a file
-
+import java.util.ArrayList;
 import java.util.Arrays; // for setAll
 
 public class MainWin extends JFrame {
@@ -128,6 +128,7 @@ public class MainWin extends JFrame {
         view.add(vOption);
         view.add(vComputer);
         view.add(vOrder);
+        view.add(vDetail);
         help.add(about);
 
         menubar.add(file);
@@ -351,42 +352,39 @@ public class MainWin extends JFrame {
         } catch (Exception e) {
         }
 
-        // Widgets will include a label and JTextField or JButton for each field
+        // Widgets will include a label and a JTextField or a JButton for each field
         Object[] widgets = new Object[2 * fields.length];
 
         // Create the widget pairs
-        int widgetsIndex = 0; // initialize the index for widgets array
         for (int i = 0; i < fields.length; ++i) {
-            widgets[2 * i] = new JLabel("<html><br>" + fields[i] + "</html>");
-
             if (fields[i].equals("Image Filename") && includeImageChooser) {
                 // Add a JFileChooser button for selecting an image file
                 JButton fileChooserButton = new JButton("Select Image File");
-                JTextField filenameField = new JTextField(); // create a new JTextField for the filename
                 final int finalI = i; // Define final variable to use in ActionListener
                 fileChooserButton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         JFileChooser fileChooser = new JFileChooser();
                         fileChooser.setDialogTitle("Select Image File");
-                        int result = fileChooser.showOpenDialog(null); // changed MainWin.this to null here
+                        int result = fileChooser.showOpenDialog(null);
                         if (result == JFileChooser.APPROVE_OPTION) {
                             File selectedFile = fileChooser.getSelectedFile();
-                            String selectedFilePath = selectedFile.getAbsolutePath(); // store the selected file
-                            filenameField.setText(selectedFilePath);
+                            String selectedFilePath = selectedFile.getAbsolutePath();
+                            widgets[2 * finalI + 1] = selectedFilePath;
                         }
                     }
                 });
+                widgets[2 * i] = new JLabel("<html><br>" + fields[i] + "</html>");
                 widgets[2 * i + 1] = fileChooserButton;
-                widgets[2 * i + 1] = filenameField; // add the filenameField to the next position
             } else {
                 // Add a regular JTextField for all other fields
+                widgets[2 * i] = new JLabel("<html><br>" + fields[i] + "</html>");
                 widgets[2 * i + 1] = new JTextField();
             }
         }
 
         // Show the dialog
-        int button = JOptionPane.showConfirmDialog(this, widgets, title,
+        int button = JOptionPane.showConfirmDialog(null, widgets, title,
                 JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, icon);
 
         // If the OK button was pressed, extract result from widgets
@@ -394,11 +392,9 @@ public class MainWin extends JFrame {
             result = new String[fields.length];
             for (int i = 0; i < fields.length; ++i) {
                 if (fields[i].equals("Image Filename") && includeImageChooser) {
-                    JTextField textField = (JTextField) widgets[2 * i + 2];
-                    result[i] = textField.getText();
+                    result[i] = (String) widgets[2 * i + 1];
                 } else {
-                    JTextField textField = (JTextField) widgets[2 * i + 1];
-                    result[i] = textField.getText();
+                    result[i] = ((JTextField) widgets[2 * i + 1]).getText();
                 }
             }
         }
@@ -571,38 +567,60 @@ public class MainWin extends JFrame {
         display.setText(sb.toString());
     }
 
+    // VIEW > DETAIL
     private void onViewDetailsClick() {
-        // Show a dialog to select the record type
-        Record recordType = (Record) JOptionPane.showInputDialog(this,
-                "Select the record type to view:", "View Record Details",
-                JOptionPane.PLAIN_MESSAGE, null, Record.values(), Record.CUSTOMER);
+        // Create a dialog to select the data class
+        JComboBox<String> dataClassComboBox = new JComboBox<String>(new String[] { "Customer", "Option", "Computer" });
+        int result = JOptionPane.showConfirmDialog(this, dataClassComboBox, "Select Data Class",
+                JOptionPane.OK_CANCEL_OPTION);
+        if (result == JOptionPane.OK_OPTION) {
+            String selectedDataClass = (String) dataClassComboBox.getSelectedItem();
+            // Get the records for the selected data class
+            List<String> records = new ArrayList<String>();
+            Object[] data = null;
+            if (selectedDataClass.equals("Customer")) {
+                data = store.customers();
+            } else if (selectedDataClass.equals("Option")) {
+                data = store.options();
+            } else if (selectedDataClass.equals("Computer")) {
+                data = store.computers();
+            }
+            for (Object obj : data) {
+                records.add(obj.toString());
+            }
+            // Create a dialog to select the record
+            JComboBox<String> recordComboBox = new JComboBox<String>(records.toArray(new String[0]));
+            result = JOptionPane.showConfirmDialog(this, recordComboBox, "Select Record", JOptionPane.OK_CANCEL_OPTION);
+            if (result == JOptionPane.OK_OPTION) {
+                String selectedRecord = (String) recordComboBox.getSelectedItem();
+                // Find the selected record in the data list
+                Object selectedData = null;
+                for (Object obj : data) {
+                    if (obj.toString().equals(selectedRecord)) {
+                        selectedData = obj;
+                        break;
+                    }
+                }
+                // Get the image file path from the selected data object
+                String imagePath = null;
+                if (selectedData instanceof Customer) {
+                    imagePath = ((Customer) selectedData).getImageFilename();
+                } else if (selectedData instanceof Option) {
+                    imagePath = ((Option) selectedData).getImageFilename();
+                } else if (selectedData instanceof Computer) {
+                    imagePath = ((Computer) selectedData).getImageFilename();
+                }
+                // Create the JLabel with the image and text
+                if (imagePath != null) {
+                    ImageIcon icon = new ImageIcon(imagePath);
+                    display.setIcon(icon);
+                } else {
+                    display.setIcon(null);
+                }
+                // Set the JLabel in the main window
 
-        // Handle cancel button or closing the dialog
-        if (recordType == null) {
-            return;
+            }
         }
-
-        // Show a dialog to select the record to view
-        String[] recordNames = store.listNames(recordType);
-        if (recordNames.length == 0) {
-            JOptionPane.showMessageDialog(this, "No " + recordType.toString().toLowerCase() + "s found.",
-                    "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        String recordName = (String) JOptionPane.showInputDialog(this,
-                "Select the " + recordType.toString().toLowerCase() + " to view:",
-                "View Record Details", JOptionPane.PLAIN_MESSAGE, null,
-                recordNames, recordNames[0]);
-
-        // Handle cancel button or closing the dialog
-        if (recordName == null) {
-            return;
-        }
-
-        // Get the record details and display them
-        String recordDetails = store.getRecordDetails(recordType, recordName);
-        JOptionPane.showMessageDialog(this, recordDetails, recordType.toString() + " Details",
-                JOptionPane.PLAIN_MESSAGE);
     }
 
     protected void onAboutClick() { // Display About dialog
