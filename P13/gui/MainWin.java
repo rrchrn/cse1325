@@ -260,6 +260,7 @@ public class MainWin extends JFrame {
     }
 
     protected void onNewClick(String name) {
+        setStatus("");
         if (name.isEmpty()) {
             name = JOptionPane.showInputDialog(this, "Store Name", DEFAULT_STORE_NAME);
             if (name.isEmpty())
@@ -271,6 +272,7 @@ public class MainWin extends JFrame {
     }
 
     protected void onOpenClick() {
+        setStatus("");
         final JFileChooser fc = new JFileChooser(filename); // Create a file chooser dialog
         FileFilter elsaFiles = new FileNameExtensionFilter("ELSA files", EXTENSION);
         fc.addChoosableFileFilter(elsaFiles); // Add "ELSA file" filter
@@ -299,6 +301,7 @@ public class MainWin extends JFrame {
     }
 
     protected void onSaveClick() {
+        setStatus("");
         setStatus("Saving...");
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(filename))) {
             bw.write(MAGIC_COOKIE + '\n');
@@ -316,6 +319,7 @@ public class MainWin extends JFrame {
     }
 
     protected void onSaveAsClick() {
+        setStatus("");
         setStatus("Saving...");
         final JFileChooser fc = new JFileChooser(filename); // Create a file chooser dialog
         FileFilter elsaFiles = new FileNameExtensionFilter("ELSA files", EXTENSION);
@@ -330,7 +334,7 @@ public class MainWin extends JFrame {
             onSaveClick(); // Delegate to Save method
         }
 
-        setStatus("Saved!");
+        setStatus("Saved" + filename.getName());
     }
 
     protected void onQuitClick() {
@@ -402,6 +406,7 @@ public class MainWin extends JFrame {
     }
 
     protected void onInsertCustomerClick() {
+        setStatus("");
         setStatus("Inserting Customer...");
         try {
             String[] result = UnifiedDialog(new String[] { "Name", "Email", "Image Filename" },
@@ -420,6 +425,7 @@ public class MainWin extends JFrame {
     }
 
     protected void onInsertOptionClick() {
+        setStatus("");
         setStatus("Inserting Option...");
         try {
             String[] result = UnifiedDialog(new String[] { "Name", "Cost", "Image Filename" },
@@ -440,6 +446,7 @@ public class MainWin extends JFrame {
 
     protected void onInsertComputerClick() {
         // Load the icon if available
+        setStatus("");
         setStatus("Inserting Computer..");
         ImageIcon icon = null;
         try {
@@ -477,6 +484,7 @@ public class MainWin extends JFrame {
     }
 
     protected void onInsertOrderClick() {
+        setStatus("");
         // Load the image if available
         setStatus("Inserting Order...");
         ImageIcon icon = null;
@@ -537,6 +545,7 @@ public class MainWin extends JFrame {
     }
 
     protected void onViewClick(Record record) {
+        setStatus("");
         setStatus("Viewing...");
         String header = null;
         Object[] list = null;
@@ -570,6 +579,7 @@ public class MainWin extends JFrame {
     // VIEW > DETAIL
     private void onViewDetailsClick() {
         // Create a dialog to select the data class
+        setStatus("");
         JComboBox<String> dataClassComboBox = new JComboBox<String>(new String[] { "Customer", "Option", "Computer" });
         int result = JOptionPane.showConfirmDialog(this, dataClassComboBox, "Select Data Class",
                 JOptionPane.OK_CANCEL_OPTION);
@@ -618,12 +628,13 @@ public class MainWin extends JFrame {
                     display.setIcon(null);
                 }
                 // Set the JLabel in the main window
-
+                setStatus("Detail added");
             }
         }
     }
 
     protected void onAboutClick() { // Display About dialog
+        setStatus("");
         Canvas logo = new Canvas("gui/resources/logo320.png");
 
         JLabel title = new JLabel("<html>"
